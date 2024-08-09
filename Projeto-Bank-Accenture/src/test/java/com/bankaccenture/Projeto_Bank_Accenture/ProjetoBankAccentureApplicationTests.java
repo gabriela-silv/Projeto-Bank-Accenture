@@ -1,60 +1,175 @@
 package com.bankaccenture.Projeto_Bank_Accenture;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.bankaccenture.Projeto_Bank_Accenture.exceptions.ContaCorrenteNaoEncontradaException;
+import com.bankaccenture.Projeto_Bank_Accenture.model.Agencia;
+import com.bankaccenture.Projeto_Bank_Accenture.model.Cliente;
+import com.bankaccenture.Projeto_Bank_Accenture.model.ContaCorrente;
+import com.bankaccenture.Projeto_Bank_Accenture.model.Extrato;
+import com.bankaccenture.Projeto_Bank_Accenture.sevice.ContaCorrenteService;
 
 @SpringBootTest
 class ProjetoBankAccentureApplicationTests {
+	
+	@Autowired
+    private ContaCorrenteService contaCorrenteService;
+	
+	
 
 	 @Test
 	    void deveCadastrarContaCorrenteComSucesso() {
-	        // Código para testar o cadastro de uma conta corrente
+			 
+			Cliente cliente = new Cliente();
+	        Agencia agencia = new Agencia();
+	        ContaCorrente contaCorrente = new ContaCorrente();
+	        ContaCorrente contaCorrenteSalva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+	        assertNotNull(contaCorrenteSalva);
+	        assertEquals(contaCorrente.getContaCorrenteNumero(), contaCorrenteSalva.getContaCorrenteNumero());
+
 	    }
 
 	    @Test
 	    void deveConsultarContaExistente() {
-	        // Código para testar a consulta de uma conta existente
+	    	
+	    	Cliente cliente = new Cliente();
+	        Agencia agencia = new Agencia();
+	        ContaCorrente contaCorrente = new ContaCorrente();
+	        ContaCorrente contaCorrenteSalva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+	        ContaCorrente contaCorrenteConsultada = contaCorrenteService.listarContaCorrentePorId(contaCorrenteSalva.getIdContaCorrente());
+	        assertNotNull(contaCorrenteConsultada);
+	        assertEquals(contaCorrente.getContaCorrenteNumero(), contaCorrenteConsultada.getContaCorrenteNumero());
+
 	    }
 
+	    
+	    @Test
+	    void deveAtualizarContaCorrenteComSucesso() {
+	        Cliente cliente = new Cliente();
+	        Agencia agencia = new Agencia();
+	        ContaCorrente contaCorrente = new ContaCorrente();
+	        ContaCorrente contaCorrenteSalva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+	        contaCorrenteSalva.setContaCorrenteSaldo(2000);
+	        ContaCorrente contaCorrenteAtualizada = contaCorrenteService.atualizarContaCorrente(contaCorrenteSalva);
+	        assertNotNull(contaCorrenteAtualizada);
+	        assertEquals(2000L, contaCorrenteAtualizada.getContaCorrenteSaldo());
+	    }
+	    
+	    @Test
+	    void deveDeletarContaCorrenteComSucesso() {
+	        Cliente cliente = new Cliente();
+	        Agencia agencia = new Agencia();
+	        ContaCorrente contaCorrente = new ContaCorrente();
+	        ContaCorrente contaCorrenteSalva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+	        String mensagem = contaCorrenteService.deletarContaCorrentePorId(contaCorrenteSalva);
+	        assertEquals("Conta de id " + contaCorrenteSalva.getIdContaCorrente() + " deletada com sucesso", mensagem);
+	        ContaCorrente contaCorrenteConsultada = contaCorrenteService.listarContaCorrentePorId(contaCorrenteSalva.getIdContaCorrente());
+	        assertNull(contaCorrenteConsultada);
+	    }
+	    
 	    @Test
 	    void deveFazerDepositoComSucesso() {
-	        // Código para testar a realização de um depósito com sucesso
+	        Cliente cliente = new Cliente();
+	        Agencia agencia = new Agencia();
+	        ContaCorrente contaCorrente = new ContaCorrente();
+	        ContaCorrente contaCorrenteSalva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+	        contaCorrenteService.depositar(contaCorrenteSalva, 500);
+	        assertEquals(1500L, contaCorrenteSalva.getContaCorrenteSaldo());
 	    }
 
 	    @Test
 	    void deveFazerSaqueComSucesso() {
-	        // Código para testar a realização de um saque com sucesso
+	        Cliente cliente = new Cliente();
+	        Agencia agencia = new Agencia();
+	        ContaCorrente contaCorrente = new ContaCorrente();
+	        ContaCorrente contaCorrenteSalva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+	        contaCorrenteService.depositar(contaCorrente, 300);
+	        contaCorrenteService.sacar(contaCorrenteSalva, 200);
+	        assertEquals(800L, contaCorrenteSalva.getContaCorrenteSaldo());
 	    }
 
 	    @Test
 	    void deveConsultarDadosDaConta() {
-	        // Código para testar a consulta dos dados de uma conta
+	        Cliente cliente = new Cliente();
+	        Agencia agencia = new Agencia();
+	        ContaCorrente contaCorrente = new ContaCorrente();
+	        ContaCorrente contaCorrenteSalva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+	        ContaCorrente contaCorrenteConsultada = contaCorrenteService.listarContaCorrentePorId(contaCorrenteSalva.getIdContaCorrente());
+	        assertNotNull(contaCorrenteConsultada);
+	        assertEquals(contaCorrente.getContaCorrenteNumero(), contaCorrenteConsultada.getContaCorrenteNumero());
 	    }
 
 	    @Test
 	    void deveFazerTransferenciaEntreContasComSucesso() {
-	        // Código para testar a transferência entre contas com sucesso
+	        Cliente cliente = new Cliente();
+	        Agencia agencia = new Agencia();
+	        ContaCorrente contaCorrente = new ContaCorrente();
+	        ContaCorrente contaCorrente1Salva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+
+	        Cliente cliente2 = new Cliente();
+	        Agencia agencia2 = new Agencia();
+	        ContaCorrente contaCorrente2 = new ContaCorrente();
+	        ContaCorrente contaCorrente2Salva = contaCorrenteService.cadastrarContaCorrente(contaCorrente2);
+
+	        contaCorrenteService.transferir(contaCorrente1Salva, contaCorrente2Salva, 200);
+	        assertEquals(800L, contaCorrente1Salva.getContaCorrenteSaldo());
+	        assertEquals(700L, contaCorrente2Salva.getContaCorrenteSaldo());
 	    }
 
 	    @Test
 	    void deveLancarExcecaoQuandoContaDestinoNaoExistir() {
-	        // Código para testar a exceção lançada quando a conta destino não existir
+	        Cliente cliente = new Cliente();
+	        Agencia agencia = new Agencia();
+	        ContaCorrente contaCorrente = new ContaCorrente();
+	        ContaCorrente contaCorrente1Salva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+
+	        assertThrows(ContaCorrenteNaoEncontradaException.class, () -> {
+	            contaCorrenteService.transferir(contaCorrente1Salva, new ContaCorrente(), 200);
+	        });
 	    }
 
 	    @Test
 	    void deveExibirExtratoDeConta() {
-	        // Código para testar a exibição do extrato de uma conta
+	        Cliente cliente = new Cliente();
+	        Agencia agencia = new Agencia();
+	        ContaCorrente contaCorrente = new ContaCorrente();
+	        ContaCorrente contaCorrenteSalva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+
+	        Extrato extrato = contaCorrenteService.exibirExtrato(contaCorrenteSalva);
+	        assertNotNull(extrato);
+	        assertEquals(contaCorrenteSalva.getContaCorrenteNumero(), extrato.getContaCorrente());
 	    }
 
 	    @Test
 	    void deveRecalcularSaldoDeCliente() {
-	        // Código para testar o recálculo do saldo de um cliente
+	        Cliente cliente = new Cliente();
+	        Agencia agencia = new Agencia();
+	        ContaCorrente contaCorrente = new ContaCorrente();
+	        ContaCorrente contaCorrenteSalva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+
+	        contaCorrenteService.depositar(contaCorrenteSalva, 500);
+	        contaCorrenteService.sacar(contaCorrenteSalva, 200);
+
+	        assertEquals(1300L, contaCorrenteSalva.getContaCorrenteSaldo());
 	    }
 
 	    @Test
 	    void deveVerificarSeCadastroDeContaFoiExecutadoComSucesso() {
-	        // Código para testar se o cadastro de conta foi executado com sucesso
+	        Cliente cliente = new Cliente();
+	        Agencia agencia = new Agencia();
+	        ContaCorrente contaCorrente = new ContaCorrente();
+	        ContaCorrente contaCorrenteSalva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+
+	        assertNotNull(contaCorrenteSalva);
+	        assertEquals(contaCorrente.getContaCorrenteNumero(), contaCorrenteSalva.getContaCorrenteNumero());
 	    }
+	
 	
 	
 
