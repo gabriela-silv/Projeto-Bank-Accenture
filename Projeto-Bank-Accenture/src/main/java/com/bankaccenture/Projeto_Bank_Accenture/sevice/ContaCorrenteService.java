@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bankaccenture.Projeto_Bank_Accenture.exceptions.ContaCorrenteNaoEncontradaException;
 import com.bankaccenture.Projeto_Bank_Accenture.exceptions.SaldoInsuficienteException;
 import com.bankaccenture.Projeto_Bank_Accenture.model.ContaCorrente;
 import com.bankaccenture.Projeto_Bank_Accenture.model.Extrato;
@@ -63,14 +64,19 @@ public class ContaCorrenteService {
 
 	@Transactional(readOnly = false)
 	public void transferir(ContaCorrente contaCorrenteOrigem, ContaCorrente contaCorrenteDestino, int valor) {
-		if (contaCorrenteOrigem.getContaCorrenteSaldo() >= valor) {
-			contaCorrenteOrigem.setContaCorrenteSaldo(contaCorrenteOrigem.getContaCorrenteSaldo() - valor);
-			contaCorrenteDestino.setContaCorrenteSaldo(contaCorrenteDestino.getContaCorrenteSaldo() + valor);
-			contaCorrenteRepository.save(contaCorrenteOrigem);
-			contaCorrenteRepository.save(contaCorrenteDestino);
-		} else {
-			throw new SaldoInsuficienteException(valor, contaCorrenteOrigem.getContaCorrenteSaldo());
-		}
+	    
+		if (contaCorrenteRepository.findById(contaCorrenteOrigem.getIdContaCorrente()).isEmpty()
+				|| contaCorrenteRepository.findById(contaCorrenteDestino.getIdContaCorrente()).isEmpty()
+				) {
+	        throw new ContaCorrenteNaoEncontradaException("Conta corrente de origem não encontrada.");
+	    }
+	    if (contaCorrenteOrigem.getContaCorrenteSaldo() < valor) {
+	        throw new SaldoInsuficienteException(valor, contaCorrenteOrigem.getContaCorrenteSaldo());
+	    }
+	    contaCorrenteOrigem.setContaCorrenteSaldo(contaCorrenteOrigem.getContaCorrenteSaldo() - valor);
+	    contaCorrenteDestino.setContaCorrenteSaldo(contaCorrenteDestino.getContaCorrenteSaldo() + valor);
+	    contaCorrenteRepository.save(contaCorrenteOrigem);
+	    contaCorrenteRepository.save(contaCorrenteDestino);
 	}
 	
 	@Transactional(readOnly = true)

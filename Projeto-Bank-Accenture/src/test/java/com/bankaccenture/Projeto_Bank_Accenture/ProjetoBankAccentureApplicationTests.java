@@ -58,7 +58,7 @@ class ProjetoBankAccentureApplicationTests {
 	        contaCorrenteSalva.setContaCorrenteSaldo(2000);
 	        ContaCorrente contaCorrenteAtualizada = contaCorrenteService.atualizarContaCorrente(contaCorrenteSalva);
 	        assertNotNull(contaCorrenteAtualizada);
-	        assertEquals(2000L, contaCorrenteAtualizada.getContaCorrenteSaldo());
+	        assertEquals(2000, contaCorrenteAtualizada.getContaCorrenteSaldo());
 	    }
 	    
 	    @Test
@@ -80,7 +80,7 @@ class ProjetoBankAccentureApplicationTests {
 	        ContaCorrente contaCorrente = new ContaCorrente();
 	        ContaCorrente contaCorrenteSalva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
 	        contaCorrenteService.depositar(contaCorrenteSalva, 500);
-	        assertEquals(1500L, contaCorrenteSalva.getContaCorrenteSaldo());
+	        assertEquals(500, contaCorrenteSalva.getContaCorrenteSaldo());
 	    }
 
 	    @Test
@@ -89,9 +89,9 @@ class ProjetoBankAccentureApplicationTests {
 	        Agencia agencia = new Agencia();
 	        ContaCorrente contaCorrente = new ContaCorrente();
 	        ContaCorrente contaCorrenteSalva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
-	        contaCorrenteService.depositar(contaCorrente, 300);
+	        contaCorrenteService.depositar(contaCorrente, 1000);
 	        contaCorrenteService.sacar(contaCorrenteSalva, 200);
-	        assertEquals(800L, contaCorrenteSalva.getContaCorrenteSaldo());
+	        assertEquals(800, contaCorrenteSalva.getContaCorrenteSaldo());
 	    }
 
 	    @Test
@@ -111,15 +111,18 @@ class ProjetoBankAccentureApplicationTests {
 	        Agencia agencia = new Agencia();
 	        ContaCorrente contaCorrente = new ContaCorrente();
 	        ContaCorrente contaCorrente1Salva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
-
+	        
+	        contaCorrenteService.depositar(contaCorrente1Salva, 1000);
+	        
 	        Cliente cliente2 = new Cliente();
 	        Agencia agencia2 = new Agencia();
 	        ContaCorrente contaCorrente2 = new ContaCorrente();
 	        ContaCorrente contaCorrente2Salva = contaCorrenteService.cadastrarContaCorrente(contaCorrente2);
+        
 
 	        contaCorrenteService.transferir(contaCorrente1Salva, contaCorrente2Salva, 200);
-	        assertEquals(800L, contaCorrente1Salva.getContaCorrenteSaldo());
-	        assertEquals(700L, contaCorrente2Salva.getContaCorrenteSaldo());
+	        assertEquals(800, contaCorrente1Salva.getContaCorrenteSaldo());
+	        assertEquals(200, contaCorrente2Salva.getContaCorrenteSaldo());
 	    }
 
 	    @Test
@@ -156,7 +159,7 @@ class ProjetoBankAccentureApplicationTests {
 	        contaCorrenteService.depositar(contaCorrenteSalva, 500);
 	        contaCorrenteService.sacar(contaCorrenteSalva, 200);
 
-	        assertEquals(1300L, contaCorrenteSalva.getContaCorrenteSaldo());
+	        assertEquals(300, contaCorrenteSalva.getContaCorrenteSaldo());
 	    }
 
 	    @Test
