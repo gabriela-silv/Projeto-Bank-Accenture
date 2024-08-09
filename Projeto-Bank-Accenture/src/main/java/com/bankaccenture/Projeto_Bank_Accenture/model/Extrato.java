@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class Extrato {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idExtrato;
+	private int idExtrato;
 	
 	@Column
 	private Calendar dataHoraMovimento;

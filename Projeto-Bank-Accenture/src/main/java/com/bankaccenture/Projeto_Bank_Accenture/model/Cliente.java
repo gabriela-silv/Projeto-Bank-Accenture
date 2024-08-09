@@ -1,7 +1,7 @@
 package com.bankaccenture.Projeto_Bank_Accenture.model;
 
+import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,37 +21,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name="Cliente")
-public class Cliente {
+public class Cliente implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idCliente;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int idCliente;
 	
-	@Column
-	private StringBuffer clienteNome;
-	private StringBuffer clienteCPF;
-	private StringBuffer clienteFone;
+	@Column(name="nome")
+	private String clienteNome;
 	
+	@Column(name="cpf")
+	private String clienteCPF;
+	
+	@Column(name="telefone")
+	private String clienteFone;
+		
 	@OneToMany(mappedBy = "cliente")
 	private List<ContaCorrente>  contas;
-	
-	@Override
-	public int hashCode() {
-		return Objects.hash(idCliente);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Cliente other = (Cliente) obj;
-		return Objects.equals(idCliente, other.idCliente);
-	}
-	
-	
 	
 	
 }

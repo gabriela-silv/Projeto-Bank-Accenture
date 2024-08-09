@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class Agencia {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idAgencia;
+	private int idAgencia;
 	
 	@Column
 	private StringBuffer nomeAgencia;

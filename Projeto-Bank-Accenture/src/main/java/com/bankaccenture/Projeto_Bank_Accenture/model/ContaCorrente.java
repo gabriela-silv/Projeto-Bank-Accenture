@@ -28,11 +28,13 @@ public class ContaCorrente {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idContaCorrente;
+	private int idContaCorrente;
 	
 	@Column
 	private String contaCorrenteNumero;
-	private Long contaCorrenteSaldo;
+	
+	@Column
+	private int contaCorrenteSaldo;
 	
 	@ManyToOne
 	@JoinColumn(name="idCliente")

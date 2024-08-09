@@ -21,7 +21,7 @@ public class ExtratoService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Extrato listarExtratoPorId(Long id) {
+	public Extrato listarExtratoPorId(int id) {
 		Extrato extrato = extratoRepository.findById(id).orElse(null);
 		return extrato;
 	}
@@ -38,7 +38,7 @@ public class ExtratoService {
 	
 	@Transactional(readOnly = false)
 	public String deletarExtratoPorId(Extrato extrato) {
-		Long id = extrato.getIdExtrato();
+		int id = extrato.getIdExtrato();
 		extratoRepository.deleteById(extrato.getIdExtrato());
 		return "Extrato de id " + id + " deletado com sucesso";
 	}

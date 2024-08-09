@@ -16,8 +16,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @EnableWebMvc
 public class CorsWebConfig implements Filter,WebMvcConfigurer {
 
-
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**");

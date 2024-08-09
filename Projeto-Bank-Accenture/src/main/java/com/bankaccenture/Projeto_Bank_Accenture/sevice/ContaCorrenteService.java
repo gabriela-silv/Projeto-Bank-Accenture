@@ -20,7 +20,7 @@ public class ContaCorrenteService {
 	}
 	
 	@Transactional(readOnly = true)
-	public ContaCorrente listarContaCorrentePorId(Long id) {
+	public ContaCorrente listarContaCorrentePorId(int id) {
 		ContaCorrente contaCorrente = contaCorrenteRepository.findById(id).orElse(null);
 		return contaCorrente;
 	}
@@ -37,7 +37,7 @@ public class ContaCorrenteService {
 	
 	@Transactional(readOnly = false)
 	public String deletarContaCorrentePorId(ContaCorrente contaCorrente) {
-		Long id = contaCorrente.getIdContaCorrente();
+		int id = contaCorrente.getIdContaCorrente();
 		contaCorrenteRepository.deleteById(contaCorrente.getIdContaCorrente());
 		return "Conta de id " + id + " deletada com sucesso";
 	}

@@ -21,7 +21,7 @@ public class AgenciaService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Agencia listarAgenciaPorId(Long id) {
+	public Agencia listarAgenciaPorId(int id) {
 		Agencia agencia = agenciaRepository.findById(id).orElse(null);
 		return agencia;
 	}
@@ -38,7 +38,7 @@ public class AgenciaService {
 	
 	@Transactional(readOnly = false)
 	public String deletarAgenciaPorId(Agencia agencia) {
-		Long id = agencia.getIdAgencia();
+		int id = agencia.getIdAgencia();
 		agenciaRepository.deleteById(agencia.getIdAgencia());
 		return "Agencia de id " + id + " deletada com sucesso";
 	}
