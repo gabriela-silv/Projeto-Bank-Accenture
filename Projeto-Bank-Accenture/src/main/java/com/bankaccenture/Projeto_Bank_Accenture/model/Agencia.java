@@ -1,11 +1,25 @@
 package com.bankaccenture.Projeto_Bank_Accenture.model;
 
-import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name="Agencia")
 public class Agencia {
@@ -20,62 +34,13 @@ public class Agencia {
 	
 	@OneToMany(mappedBy = "agencia")
 	private List<ContaCorrente> contas;
-
-	public Agencia() {}
 	
-	public Agencia(StringBuffer nomeAgencia, StringBuffer endereco, StringBuffer telefone) {
-		this.nomeAgencia = nomeAgencia;
-		this.endereco = endereco;
-		this.telefone = telefone;
-		this.contas = new ArrayList<ContaCorrente>();
-	}
+    @Column(name = "data_criacao", nullable = false)
+    private Date dataCriacao;
 
+    @Column(name = "data_atualizacao", nullable = false)
+    private Date dataAtualizacao;
 
-	public Long getIdAgencia() {
-		return idAgencia;
-	}
-
-	public void setIdAgencia(Long idAgencia) {
-		this.idAgencia = idAgencia;
-	}
-
-	public StringBuffer getNomeAgencia() {
-		return nomeAgencia;
-	}
-
-	public void setNomeAgencia(StringBuffer nomeAgencia) {
-		this.nomeAgencia = nomeAgencia;
-	}
-
-	public StringBuffer getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(StringBuffer endereco) {
-		this.endereco = endereco;
-	}
-
-	public StringBuffer getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(StringBuffer telefone) {
-		this.telefone = telefone;
-	}
-
-	public List<ContaCorrente> getContas() {
-		return contas;
-	}
-
-	public void setContas(List<ContaCorrente> contas) {
-		this.contas = contas;
-	}
-
-	@Override
-	public String toString() {
-		return "Agencia [idAgencia=" + idAgencia + ", nomeAgencia=" + nomeAgencia + ",endereco=" + endereco
-				+ ", telefone=" + telefone + ", contas=" + contas + "]";
-	}
 
 	@Override
 	public int hashCode() {
@@ -93,7 +58,6 @@ public class Agencia {
 		Agencia other = (Agencia) obj;
 		return Objects.equals(idAgencia, other.idAgencia);
 	}
-	
 	
 	
 }
