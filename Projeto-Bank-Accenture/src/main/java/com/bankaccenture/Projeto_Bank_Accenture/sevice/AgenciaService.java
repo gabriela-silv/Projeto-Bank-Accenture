@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bankaccenture.Projeto_Bank_Accenture.exception.CampoObrigatorioException;
 import com.bankaccenture.Projeto_Bank_Accenture.model.Agencia;
 import com.bankaccenture.Projeto_Bank_Accenture.repository.AgenciaRepository;
 
@@ -27,7 +28,17 @@ public class AgenciaService {
 	}
 	
 	@Transactional(readOnly = false)
-	public Agencia cadastrarAgencia(Agencia agencia){
+	public Agencia cadastrarAgencia(Agencia agencia)  throws CampoObrigatorioException {
+		
+		if (agencia.getNomeAgencia() == null || agencia.getNomeAgencia().isEmpty()) {
+			throw new CampoObrigatorioException("Nome");
+		}
+		if (agencia.getEndereco() == null || agencia.getEndereco().isEmpty()) {
+			throw new CampoObrigatorioException("Endereço");
+		}
+		if (agencia.getTelefone() == null || agencia.getTelefone().isEmpty()) {
+			throw new CampoObrigatorioException("Telefone");
+		}
 		return agenciaRepository.save(agencia);
 	}
 	

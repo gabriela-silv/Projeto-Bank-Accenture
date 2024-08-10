@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bankaccenture.Projeto_Bank_Accenture.exception.CampoObrigatorioException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.CPFInvalidoException;
@@ -21,6 +22,7 @@ import com.bankaccenture.Projeto_Bank_Accenture.repository.ClienteRepository;
 import com.bankaccenture.Projeto_Bank_Accenture.sevice.ClienteService;
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest
 public class ClienteTest {
 
     @Mock
