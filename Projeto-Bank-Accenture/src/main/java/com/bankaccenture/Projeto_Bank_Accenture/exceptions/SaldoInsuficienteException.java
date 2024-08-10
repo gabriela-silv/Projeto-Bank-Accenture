@@ -7,7 +7,7 @@ public class SaldoInsuficienteException extends RuntimeException {
         super(message);
     }
 
-    public SaldoInsuficienteException(int valor, int saldoAtual) {
+    public SaldoInsuficienteException(double valor, double saldoAtual) {
         super("Saldo insuficiente para realizar a operação de valor " + valor + ". Saldo atual: " + saldoAtual);
     }
 }

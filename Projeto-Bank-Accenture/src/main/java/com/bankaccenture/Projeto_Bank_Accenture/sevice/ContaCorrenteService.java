@@ -47,13 +47,13 @@ public class ContaCorrenteService {
 	
 
 	@Transactional(readOnly = false)
-	public void depositar(ContaCorrente contaCorrente, int valor) {
+	public void depositar(ContaCorrente contaCorrente, double valor) {
 		contaCorrente.setContaCorrenteSaldo(contaCorrente.getContaCorrenteSaldo() + valor);
 		contaCorrenteRepository.save(contaCorrente);
 	}
 
 	@Transactional(readOnly = false)
-	public void sacar(ContaCorrente contaCorrente, int valor) {
+	public void sacar(ContaCorrente contaCorrente, double valor) {
 		if (contaCorrente.getContaCorrenteSaldo() >= valor) {
 			contaCorrente.setContaCorrenteSaldo(contaCorrente.getContaCorrenteSaldo() - valor);
 			contaCorrenteRepository.save(contaCorrente);
@@ -63,7 +63,7 @@ public class ContaCorrenteService {
 	}
 
 	@Transactional(readOnly = false)
-	public void transferir(ContaCorrente contaCorrenteOrigem, ContaCorrente contaCorrenteDestino, int valor) {
+	public void transferir(ContaCorrente contaCorrenteOrigem, ContaCorrente contaCorrenteDestino, double valor) {
 	    
 		if (contaCorrenteRepository.findById(contaCorrenteOrigem.getIdContaCorrente()).isEmpty()
 				|| contaCorrenteRepository.findById(contaCorrenteDestino.getIdContaCorrente()).isEmpty()
@@ -77,13 +77,6 @@ public class ContaCorrenteService {
 	    contaCorrenteDestino.setContaCorrenteSaldo(contaCorrenteDestino.getContaCorrenteSaldo() + valor);
 	    contaCorrenteRepository.save(contaCorrenteOrigem);
 	    contaCorrenteRepository.save(contaCorrenteDestino);
-	}
-	
-	@Transactional(readOnly = true)
-	public Extrato exibirExtrato(ContaCorrente contaCorrente) {
-		Extrato extrato = new Extrato();
-		 // criar logica, não estou vendo mt sentido aqui no extrato 
-		return extrato;
 	}
 	
 	

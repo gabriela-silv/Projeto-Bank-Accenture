@@ -14,12 +14,16 @@ import com.bankaccenture.Projeto_Bank_Accenture.model.Cliente;
 import com.bankaccenture.Projeto_Bank_Accenture.model.ContaCorrente;
 import com.bankaccenture.Projeto_Bank_Accenture.model.Extrato;
 import com.bankaccenture.Projeto_Bank_Accenture.sevice.ContaCorrenteService;
+import com.bankaccenture.Projeto_Bank_Accenture.sevice.ExtratoService;
 
 @SpringBootTest
 class ProjetoBankAccentureApplicationTests {
 	
 	@Autowired
     private ContaCorrenteService contaCorrenteService;
+	
+	@Autowired
+    private ExtratoService extratoService;
 	
 	
 
@@ -144,9 +148,9 @@ class ProjetoBankAccentureApplicationTests {
 	        ContaCorrente contaCorrente = new ContaCorrente();
 	        ContaCorrente contaCorrenteSalva = contaCorrenteService.cadastrarContaCorrente(contaCorrente);
 
-	        Extrato extrato = contaCorrenteService.exibirExtrato(contaCorrenteSalva);
+	        Extrato extrato = extratoService.exibirExtrato(contaCorrenteSalva);
 	        assertNotNull(extrato);
-	        assertEquals(contaCorrenteSalva.getContaCorrenteNumero(), extrato.getContaCorrente());
+	        assertEquals(contaCorrenteSalva.getContaCorrenteNumero(), extrato.getIdContaCorrente());
 	    }
 
 	    @Test

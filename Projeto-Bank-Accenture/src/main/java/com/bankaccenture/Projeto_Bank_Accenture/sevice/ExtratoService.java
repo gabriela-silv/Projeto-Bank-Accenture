@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bankaccenture.Projeto_Bank_Accenture.model.ContaCorrente;
 import com.bankaccenture.Projeto_Bank_Accenture.model.Extrato;
 import com.bankaccenture.Projeto_Bank_Accenture.repository.ExtratoRepository;
 
@@ -43,8 +44,10 @@ public class ExtratoService {
 		return "Extrato de id " + id + " deletado com sucesso";
 	}
 	
-
-	
-	
-	
+	@Transactional(readOnly = true)
+	public Extrato exibirExtrato(ContaCorrente contaCorrente) {
+		Extrato extrato = new Extrato();
+		 // criar logica, não estou vendo mt sentido aqui no extrato 
+		return extrato;
+	}
 }

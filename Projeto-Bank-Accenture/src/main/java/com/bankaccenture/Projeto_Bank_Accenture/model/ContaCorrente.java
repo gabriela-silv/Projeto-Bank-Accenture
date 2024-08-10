@@ -1,5 +1,6 @@
 package com.bankaccenture.Projeto_Bank_Accenture.model;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,47 +25,26 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name="ContaCorrente")
-public class ContaCorrente {
+public class ContaCorrente implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idContaCorrente;
 	
-	@Column
+	@Column(name = "numero", nullable = false)
 	private String contaCorrenteNumero;
 	
-	@Column
-	private int contaCorrenteSaldo;
+	@ManyToOne
+	@JoinColumn(name="idCliente", nullable = false)
+	private Cliente idCliente;
+	
+	@Column(name = "saldo", nullable = false)
+	private double contaCorrenteSaldo;
 	
 	@ManyToOne
-	@JoinColumn(name="idCliente")
-	private Cliente cliente;
-	
-	@ManyToOne
-	@JoinColumn(name="idAgencia")
-	private Agencia agencia;
-	
-	@OneToMany(mappedBy = "contaCorrente")
-	private List<Extrato> extratos;
+	@JoinColumn(name="idAgencia", nullable = false)
+	private Agencia idAgencia;
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(idContaCorrente);
-	}
-
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ContaCorrente other = (ContaCorrente) obj;
-		return Objects.equals(idContaCorrente, other.idContaCorrente);
-	}
-
-	
-	
 }

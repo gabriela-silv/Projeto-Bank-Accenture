@@ -1,9 +1,11 @@
 package com.bankaccenture.Projeto_Bank_Accenture.model;
 
-import java.util.Calendar;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import com.bankaccenture.Projeto_Bank_Accenture.enums.TipoOperacao;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,37 +26,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name="Extrato")
-public class Extrato {
+public class Extrato implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idExtrato;
 	
-	@Column
-	private Calendar dataHoraMovimento;
+	@Column(name= "horarioMovimentacao", nullable = false)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss", timezone = "GMT-3")
+	private LocalDateTime dataHoraMovimento;
+	
+	@Column(name = "tipoOperacao", nullable = false)
 	private TipoOperacao operacao;
 	
 	@ManyToOne
-	@JoinColumn(name="idContaCorrente")
-	private ContaCorrente contaCorrente;
-
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(idExtrato);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Extrato other = (Extrato) obj;
-		return Objects.equals(idExtrato, other.idExtrato);
-	}
-
-	
-	
+	@JoinColumn(name="idContaCorrente", nullable = false)
+	private ContaCorrente idContaCorrente;
 }
