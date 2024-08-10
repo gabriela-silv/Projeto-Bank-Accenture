@@ -1,10 +1,10 @@
-package com.bankaccenture.Projeto_Bank_Accenture.exceptions;
+package com.bankaccenture.Projeto_Bank_Accenture.exception;
 
+
+@SuppressWarnings("serial")
 public class ContaCorrenteNaoEncontradaException extends RuntimeException {
-	
-    private static final long serialVersionUID = 1L; 
 
-    public ContaCorrenteNaoEncontradaException(String message) {
+	public ContaCorrenteNaoEncontradaException(String message) {
         super(message);
     }
 

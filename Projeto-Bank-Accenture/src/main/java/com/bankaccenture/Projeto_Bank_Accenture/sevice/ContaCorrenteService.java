@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bankaccenture.Projeto_Bank_Accenture.exceptions.ContaCorrenteNaoEncontradaException;
-import com.bankaccenture.Projeto_Bank_Accenture.exceptions.SaldoInsuficienteException;
+import com.bankaccenture.Projeto_Bank_Accenture.exception.ContaCorrenteNaoEncontradaException;
+import com.bankaccenture.Projeto_Bank_Accenture.exception.SaldoInsuficienteException;
 import com.bankaccenture.Projeto_Bank_Accenture.model.ContaCorrente;
 import com.bankaccenture.Projeto_Bank_Accenture.model.Extrato;
 import com.bankaccenture.Projeto_Bank_Accenture.repository.ContaCorrenteRepository;

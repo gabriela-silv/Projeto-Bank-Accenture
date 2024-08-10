@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bankaccenture.Projeto_Bank_Accenture.exceptions.ContaCorrenteNaoEncontradaException;
+import com.bankaccenture.Projeto_Bank_Accenture.exception.ContaCorrenteNaoEncontradaException;
 import com.bankaccenture.Projeto_Bank_Accenture.model.Agencia;
 import com.bankaccenture.Projeto_Bank_Accenture.model.Cliente;
 import com.bankaccenture.Projeto_Bank_Accenture.model.ContaCorrente;
