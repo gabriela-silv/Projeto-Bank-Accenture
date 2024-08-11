@@ -96,17 +96,6 @@ class ContaCorrenteTest {
 	}
 
 	@Test
-	void testAtualizarContaCorrente() {
-		when(contaCorrenteRepository.save(any(ContaCorrente.class))).thenReturn(contaCorrente);
-
-		ContaCorrente result = contaCorrenteService.atualizarContaCorrente(contaCorrente);
-
-		assertNotNull(result);
-		assertEquals(contaCorrente.getContaCorrenteNumero(), result.getContaCorrenteNumero());
-		verify(contaCorrenteRepository, times(1)).save(contaCorrente);
-	}
-
-	@Test
 	void testDeletarContaCorrentePorId() {
 		doNothing().when(contaCorrenteRepository).deleteById(1);
 

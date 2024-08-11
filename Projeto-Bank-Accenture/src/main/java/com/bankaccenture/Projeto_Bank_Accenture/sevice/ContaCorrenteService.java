@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bankaccenture.Projeto_Bank_Accenture.exception.ContaCorrenteNaoEncontradaException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.SaldoInsuficienteException;
+import com.bankaccenture.Projeto_Bank_Accenture.model.Agencia;
+import com.bankaccenture.Projeto_Bank_Accenture.model.Cliente;
 import com.bankaccenture.Projeto_Bank_Accenture.model.ContaCorrente;
 import com.bankaccenture.Projeto_Bank_Accenture.repository.ContaCorrenteRepository;
 
@@ -35,7 +37,30 @@ public class ContaCorrenteService {
 	}
 
 	@Transactional(readOnly = false)
-	public ContaCorrente atualizarContaCorrente(ContaCorrente contaCorrente) {
+	public ContaCorrente atualizarNumeroContaCorrente(int idContaCorrente, String novoNumero) {
+		ContaCorrente contaCorrente = listarContaCorrentePorId(idContaCorrente);
+		contaCorrente.setContaCorrenteNumero(novoNumero);
+		return contaCorrenteRepository.save(contaCorrente);
+	}
+
+	@Transactional(readOnly = false)
+	public ContaCorrente atualizarSaldoContaCorrente(int idContaCorrente, BigDecimal novoSaldo) {
+		ContaCorrente contaCorrente = listarContaCorrentePorId(idContaCorrente);
+		contaCorrente.setContaCorrenteSaldo(novoSaldo);
+		return contaCorrenteRepository.save(contaCorrente);
+	}
+
+	@Transactional(readOnly = false)
+	public ContaCorrente atualizarClienteContaCorrente(int idContaCorrente, Cliente novoCliente) {
+		ContaCorrente contaCorrente = listarContaCorrentePorId(idContaCorrente);
+		contaCorrente.setIdCliente(novoCliente);
+		return contaCorrenteRepository.save(contaCorrente);
+	}
+
+	@Transactional(readOnly = false)
+	public ContaCorrente atualizarAgenciaContaCorrente(int idContaCorrente, Agencia novaAgencia) {
+		ContaCorrente contaCorrente = listarContaCorrentePorId(idContaCorrente);
+		contaCorrente.setIdAgencia(novaAgencia);
 		return contaCorrenteRepository.save(contaCorrente);
 	}
 
