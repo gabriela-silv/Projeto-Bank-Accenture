@@ -7,4 +7,6 @@ public class CampoObrigatorioException extends RuntimeException {
         super(message.concat(" é um campo obrigatório"));
     }
     
+    
+    
 }

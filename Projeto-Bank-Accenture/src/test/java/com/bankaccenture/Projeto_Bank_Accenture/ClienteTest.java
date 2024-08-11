@@ -39,13 +39,13 @@ public class ClienteTest {
 		cliente1 = new Cliente();
 		cliente1.setIdCliente(1);
 		cliente1.setClienteNome("João");
-		cliente1.setClienteCPF("12345678900");
+		cliente1.setClienteCPF("63112774094");
 		cliente1.setClienteFone("999999999");
 
 		cliente2 = new Cliente();
 		cliente2.setIdCliente(2);
 		cliente2.setClienteNome("Maria");
-		cliente2.setClienteCPF("09876543211");
+		cliente2.setClienteCPF("07569071018");
 		cliente2.setClienteFone("888888888");
 	}
 
