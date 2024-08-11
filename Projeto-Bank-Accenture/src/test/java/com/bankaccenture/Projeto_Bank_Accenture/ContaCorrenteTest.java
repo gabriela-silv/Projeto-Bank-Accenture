@@ -43,10 +43,13 @@ class ContaCorrenteTest {
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
+
 		cliente = new Cliente();
 		cliente.setIdCliente(1);
+
 		agencia = new Agencia();
 		agencia.setIdAgencia(1);
+
 		contaCorrente = new ContaCorrente();
 		contaCorrente.setIdContaCorrente(1);
 		contaCorrente.setContaCorrenteNumero("12345");
@@ -64,6 +67,7 @@ class ContaCorrenteTest {
 
 	@Test
 	void testListarContaCorrentes() {
+
 		List<ContaCorrente> contaCorrentes = Arrays.asList(contaCorrente);
 		when(contaCorrenteRepository.findAll()).thenReturn(contaCorrentes);
 
@@ -96,6 +100,64 @@ class ContaCorrenteTest {
 	}
 
 	@Test
+	void testAtualizarNumeroContaCorrente() {
+		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(contaCorrente));
+
+		contaCorrenteService.atualizarNumeroContaCorrente(contaCorrente.getIdContaCorrente(), "54321");
+
+		assertEquals("54321", contaCorrente.getContaCorrenteNumero());
+		verify(contaCorrenteRepository).save(contaCorrente);
+	}
+
+	@Test
+	void testAtualizarSaldoContaCorrente() {
+		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(contaCorrente));
+
+		contaCorrenteService.atualizarSaldoContaCorrente(contaCorrente.getIdContaCorrente(), BigDecimal.valueOf(2000));
+
+		assertEquals(BigDecimal.valueOf(2000), contaCorrente.getContaCorrenteSaldo());
+		verify(contaCorrenteRepository).save(contaCorrente);
+	}
+
+	@Test
+	void testAtualizarClienteContaCorrente() {
+
+		Cliente novoCliente = new Cliente();
+		novoCliente.setIdCliente(2);
+		novoCliente.setClienteNome("Novo Cliente");
+
+		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(contaCorrente));
+
+		contaCorrenteService.atualizarClienteContaCorrente(contaCorrente.getIdContaCorrente(), novoCliente);
+
+		assertEquals(novoCliente, contaCorrente.getIdCliente());
+		verify(contaCorrenteRepository).save(contaCorrente);
+	}
+
+	@Test
+	void testAtualizarAgenciaContaCorrente() {
+		Agencia novaAgencia = new Agencia();
+		novaAgencia.setIdAgencia(2);
+		novaAgencia.setNomeAgencia("Nova Agencia");
+
+		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(contaCorrente));
+
+		contaCorrenteService.atualizarAgenciaContaCorrente(contaCorrente.getIdContaCorrente(), novaAgencia);
+
+		assertEquals(novaAgencia, contaCorrente.getIdAgencia());
+		verify(contaCorrenteRepository).save(contaCorrente);
+	}
+
+	@Test
+	void testAtualizarNumeroContaCorrenteNotFound() {
+		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.empty());
+
+		assertThrows(ContaCorrenteNaoEncontradaException.class, () -> {
+			contaCorrenteService.atualizarNumeroContaCorrente(1, "67890");
+		});
+	}
+
+	@Test
 	void testDeletarContaCorrentePorId() {
 		doNothing().when(contaCorrenteRepository).deleteById(1);
 
@@ -107,29 +169,33 @@ class ContaCorrenteTest {
 
 	@Test
 	void testDepositar() {
-		when(contaCorrenteRepository.save(any(ContaCorrente.class))).thenReturn(contaCorrente);
+		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(contaCorrente));
 
-		contaCorrenteService.depositar(contaCorrente, BigDecimal.valueOf(500));
-
+		contaCorrenteService.depositar(contaCorrente.getIdContaCorrente(), BigDecimal.valueOf(500));
 		assertEquals(BigDecimal.valueOf(1500), contaCorrente.getContaCorrenteSaldo());
-		verify(contaCorrenteRepository, times(1)).save(contaCorrente);
+		verify(contaCorrenteRepository, times(1)).save(any(ContaCorrente.class));
 	}
 
 	@Test
 	void testSacarComSaldoSuficiente() {
-		when(contaCorrenteRepository.save(any(ContaCorrente.class))).thenReturn(contaCorrente);
 
-		contaCorrenteService.sacar(contaCorrente, BigDecimal.valueOf(500));
+		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(contaCorrente));
 
+		contaCorrenteService.sacar(contaCorrente.getIdContaCorrente(), BigDecimal.valueOf(500));
 		assertEquals(BigDecimal.valueOf(500), contaCorrente.getContaCorrenteSaldo());
-		verify(contaCorrenteRepository, times(1)).save(contaCorrente);
+		verify(contaCorrenteRepository, times(1)).save(any(ContaCorrente.class));
 	}
 
 	@Test
 	void testSacarComSaldoInsuficiente() {
+
+		when(contaCorrenteRepository.findById(contaCorrente.getIdContaCorrente()))
+				.thenReturn(Optional.of(contaCorrente));
+
 		assertThrows(SaldoInsuficienteException.class, () -> {
-			contaCorrenteService.sacar(contaCorrente, BigDecimal.valueOf(1500));
+			contaCorrenteService.sacar(contaCorrente.getIdContaCorrente(), BigDecimal.valueOf(1500));
 		});
+
 	}
 
 	@Test
@@ -139,7 +205,8 @@ class ContaCorrenteTest {
 		when(contaCorrenteRepository.findById(2)).thenReturn(Optional.of(contaDestino));
 		when(contaCorrenteRepository.save(any(ContaCorrente.class))).thenReturn(contaCorrente);
 
-		contaCorrenteService.transferir(contaCorrente, contaDestino, BigDecimal.valueOf(500));
+		contaCorrenteService.transferir(contaCorrente.getIdContaCorrente(), contaDestino.getIdContaCorrente(),
+				BigDecimal.valueOf(500));
 
 		assertEquals(BigDecimal.valueOf(500), contaCorrente.getContaCorrenteSaldo());
 		assertEquals(BigDecimal.valueOf(1000), contaDestino.getContaCorrenteSaldo());
@@ -149,11 +216,13 @@ class ContaCorrenteTest {
 	@Test
 	void testTransferirComSaldoInsuficiente() {
 
-		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(contaCorrente));
-		when(contaCorrenteRepository.findById(2)).thenReturn(Optional.of(contaDestino));
+		when(contaCorrenteRepository.findById(contaCorrente.getIdContaCorrente()))
+				.thenReturn(Optional.of(contaCorrente));
+		when(contaCorrenteRepository.findById(contaDestino.getIdContaCorrente())).thenReturn(Optional.of(contaDestino));
 
 		assertThrows(SaldoInsuficienteException.class, () -> {
-			contaCorrenteService.transferir(contaCorrente, contaDestino, BigDecimal.valueOf(1500));
+			contaCorrenteService.transferir(contaCorrente.getIdContaCorrente(), contaDestino.getIdContaCorrente(),
+					BigDecimal.valueOf(1500));
 		});
 
 	}
@@ -164,7 +233,8 @@ class ContaCorrenteTest {
 		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.empty());
 
 		assertThrows(ContaCorrenteNaoEncontradaException.class, () -> {
-			contaCorrenteService.transferir(contaCorrente, contaDestino, BigDecimal.valueOf(500));
+			contaCorrenteService.transferir(contaCorrente.getIdContaCorrente(), contaDestino.getIdContaCorrente(),
+					BigDecimal.valueOf(500));
 		});
 
 	}

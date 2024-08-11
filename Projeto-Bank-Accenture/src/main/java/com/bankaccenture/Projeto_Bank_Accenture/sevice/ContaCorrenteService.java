@@ -27,12 +27,17 @@ public class ContaCorrenteService {
 
 	@Transactional(readOnly = true)
 	public ContaCorrente listarContaCorrentePorId(int id) {
-		ContaCorrente contaCorrente = contaCorrenteRepository.findById(id).orElse(null);
-		return contaCorrente;
+	    return contaCorrenteRepository.findById(id).orElseThrow(() -> 
+	        new ContaCorrenteNaoEncontradaException("Conta corrente com ID " + id + " não encontrada."));
 	}
+
 
 	@Transactional(readOnly = false)
 	public ContaCorrente cadastrarContaCorrente(ContaCorrente contaCorrente) {
+		
+		
+		
+		
 		return contaCorrenteRepository.save(contaCorrente);
 	}
 
@@ -72,13 +77,15 @@ public class ContaCorrenteService {
 	}
 
 	@Transactional(readOnly = false)
-	public void depositar(ContaCorrente contaCorrente, BigDecimal valor) {
+	public void depositar(int idCcontaCorrente, BigDecimal valor) {
+		ContaCorrente contaCorrente = listarContaCorrentePorId(idCcontaCorrente);
 		contaCorrente.setContaCorrenteSaldo(contaCorrente.getContaCorrenteSaldo().add(valor));
 		contaCorrenteRepository.save(contaCorrente);
 	}
 
 	@Transactional(readOnly = false)
-	public void sacar(ContaCorrente contaCorrente, BigDecimal valor) {
+	public void sacar(int idContaCorrente, BigDecimal valor) {
+		ContaCorrente contaCorrente = listarContaCorrentePorId(idContaCorrente);
 		if (contaCorrente.getContaCorrenteSaldo().compareTo(valor) > 0) {
 			contaCorrente.setContaCorrenteSaldo(contaCorrente.getContaCorrenteSaldo().subtract(valor));
 			contaCorrenteRepository.save(contaCorrente);
@@ -88,12 +95,11 @@ public class ContaCorrenteService {
 	}
 
 	@Transactional(readOnly = false)
-	public void transferir(ContaCorrente contaCorrenteOrigem, ContaCorrente contaCorrenteDestino, BigDecimal valor) {
-
-		if (contaCorrenteRepository.findById(contaCorrenteOrigem.getIdContaCorrente()).isEmpty()
-				|| contaCorrenteRepository.findById(contaCorrenteDestino.getIdContaCorrente()).isEmpty()) {
-			throw new ContaCorrenteNaoEncontradaException("Conta corrente de origem não encontrada.");
-		}
+	public void transferir(int idContaCorrenteOrigem, int idContaCorrenteDestino, BigDecimal valor) {
+		ContaCorrente contaCorrenteOrigem = listarContaCorrentePorId(idContaCorrenteOrigem);
+		ContaCorrente contaCorrenteDestino = listarContaCorrentePorId(idContaCorrenteDestino);
+		
+		
 		if (contaCorrenteOrigem.getContaCorrenteSaldo().compareTo(valor) < 0) {
 			throw new SaldoInsuficienteException(valor, contaCorrenteOrigem.getContaCorrenteSaldo());
 		}
