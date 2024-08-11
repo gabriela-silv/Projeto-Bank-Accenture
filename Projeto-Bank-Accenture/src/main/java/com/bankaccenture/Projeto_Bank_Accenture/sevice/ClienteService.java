@@ -45,7 +45,7 @@ public class ClienteService {
 	}
 	
 	@Transactional(readOnly = false)
-	public Cliente alterarNomeCliente(int id, String novoNome) {
+	public Cliente atualizarNomeCliente(int id, String novoNome) {
 	    Cliente cliente = listarClientePorId(id);
 	    cliente.setClienteNome(novoNome);
 	    validacaoDeDados.validaCampos(cliente);    
@@ -53,7 +53,7 @@ public class ClienteService {
 	}
 
 	@Transactional(readOnly = false)
-	public Cliente alterarTelefoneCliente(int id, String novoTelefone) {
+	public Cliente atualizarTelefoneCliente(int id, String novoTelefone) {
 		Cliente cliente = listarClientePorId(id);
 	    cliente.setClienteFone(novoTelefone);
 	    validacaoDeDados.validaCampos(cliente);    
@@ -61,7 +61,7 @@ public class ClienteService {
 	}
 
 	@Transactional(readOnly = false)
-	public Cliente alterarCPFCliente(int id, String novoCPF) {
+	public Cliente atualizarCPFCliente(int id, String novoCPF) {
 		Cliente cliente = listarClientePorId(id);
 	    cliente.setClienteCPF(novoCPF);
 	    validacaoDeDados.validaCampos(cliente);    

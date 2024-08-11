@@ -177,7 +177,7 @@ public class ClienteTest {
 	    when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente1));
 	    when(clienteRepository.save(cliente1)).thenReturn(cliente1);
 
-	    Cliente clienteAtualizado = clienteService.alterarNomeCliente(1, "Joãozinho");
+	    Cliente clienteAtualizado = clienteService.atualizarNomeCliente(1, "Joãozinho");
 
 	    assertNotNull(clienteAtualizado);
 	    assertEquals("Joãozinho", clienteAtualizado.getClienteNome());
@@ -190,7 +190,7 @@ public class ClienteTest {
 	    when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente1));
 	    when(clienteRepository.save(cliente1)).thenReturn(cliente1);
 
-	    Cliente clienteAtualizado = clienteService.alterarTelefoneCliente(1, "9999999999");
+	    Cliente clienteAtualizado = clienteService.atualizarTelefoneCliente(1, "9999999999");
 
 	    assertNotNull(clienteAtualizado);
 	    assertEquals("9999999999", clienteAtualizado.getClienteFone());
@@ -203,7 +203,7 @@ public class ClienteTest {
 	    when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente1));
 	    when(clienteRepository.save(cliente1)).thenReturn(cliente1);
 
-	    Cliente clienteAtualizado = clienteService.alterarCPFCliente(1, "63112774094");
+	    Cliente clienteAtualizado = clienteService.atualizarCPFCliente(1, "63112774094");
 
 	    assertNotNull(clienteAtualizado);
 	    assertEquals("63112774094", clienteAtualizado.getClienteCPF());
