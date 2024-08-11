@@ -4,7 +4,7 @@ package com.bankaccenture.Projeto_Bank_Accenture.exception;
 public class CampoObrigatorioException extends RuntimeException {
 	
     public CampoObrigatorioException(String message) {
-        super(message.concat(" é um campo obrigatório"));
+        super("Preencha os campos obrigatórios: ".concat(message));
     }
     
     

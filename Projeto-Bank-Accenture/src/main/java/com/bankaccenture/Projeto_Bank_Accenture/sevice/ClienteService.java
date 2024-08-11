@@ -16,9 +16,7 @@ import com.bankaccenture.Projeto_Bank_Accenture.repository.ClienteRepository;
 public class ClienteService {
 
 	@Autowired
-	ClienteRepository clienteRepository;
-	
-
+	private ClienteRepository clienteRepository;
 	private validacaoDeDados validacaoDeDados = new validacaoDeDados();
 
 	@Transactional(readOnly = true)

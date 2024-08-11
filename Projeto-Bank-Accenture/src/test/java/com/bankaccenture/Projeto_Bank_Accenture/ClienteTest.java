@@ -109,7 +109,7 @@ public class ClienteTest {
 			clienteService.cadastrarCliente(cliente);
 		});
 
-		assertEquals("Nome é um campo obrigatório", exception.getMessage());
+		assertEquals("Preencha os campos obrigatórios: Nome", exception.getMessage());
 	}
 
 	@Test
@@ -124,7 +124,7 @@ public class ClienteTest {
 			clienteService.cadastrarCliente(cliente);
 		});
 
-		assertEquals("CPF é um campo obrigatório", exception.getMessage());
+		assertEquals("Preencha os campos obrigatórios: CPF", exception.getMessage());
 	}
 
 	@Test
@@ -169,6 +169,6 @@ public class ClienteTest {
 			clienteService.cadastrarCliente(cliente);
 		});
 
-		assertEquals("Telefone é um campo obrigatório", exception.getMessage());
+		assertEquals("Preencha os campos obrigatórios: Telefone", exception.getMessage());
 	}
 }

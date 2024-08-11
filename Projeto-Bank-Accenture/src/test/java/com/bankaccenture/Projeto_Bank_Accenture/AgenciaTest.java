@@ -122,7 +122,22 @@ public class AgenciaTest {
             agenciaService.cadastrarAgencia(agencia);
         });
 
-        assertEquals("Nome é um campo obrigatório", exception.getMessage());
+        assertEquals("Preencha os campos obrigatórios: Nome", exception.getMessage());
+		
+	}
+	@Test
+	public void testNomeNulo() {
+	
+		Agencia agencia = new Agencia();
+		agencia.setIdAgencia(3);
+		agencia.setEndereco("Rua na rua");
+		agencia.setTelefone("11223344554");
+
+        Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
+            agenciaService.cadastrarAgencia(agencia);
+        });
+
+        assertEquals("Preencha os campos obrigatórios: Nome", exception.getMessage());
 		
 	}
 
@@ -138,7 +153,7 @@ public class AgenciaTest {
             agenciaService.cadastrarAgencia(agencia);
         });
 
-        assertEquals("Endereço é um campo obrigatório", exception.getMessage());
+        assertEquals("Preencha os campos obrigatórios: Endereço", exception.getMessage());
 	}
 
 	@Test
@@ -153,7 +168,7 @@ public class AgenciaTest {
             agenciaService.cadastrarAgencia(agencia);
         });
 
-        assertEquals("Telefone é um campo obrigatório", exception.getMessage());
+        assertEquals("Preencha os campos obrigatórios: Telefone", exception.getMessage());
 	}
 
 }

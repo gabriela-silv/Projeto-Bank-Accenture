@@ -7,15 +7,18 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.bankaccenture.Projeto_Bank_Accenture.exception.CPFInvalidoException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.CampoObrigatorioException;
+import com.bankaccenture.Projeto_Bank_Accenture.model.Agencia;
 import com.bankaccenture.Projeto_Bank_Accenture.model.Cliente;
+import com.bankaccenture.Projeto_Bank_Accenture.model.ContaCorrente;
 
 import jakarta.validation.constraints.AssertTrue;
 
 public class validacaoDeDados {
 
-	public boolean validaCampos(Cliente cliente) {
+	private List<String> errors = new ArrayList<>();
+	private String erroCampos;
 
-		List<String> errors = new ArrayList<>();
+	public boolean validaCampos(Cliente cliente) {
 
 		if (StringUtils.isBlank(cliente.getClienteNome())) {
 			errors.add("Nome");
@@ -30,12 +33,13 @@ public class validacaoDeDados {
 		}
 
 		if (!errors.isEmpty()) {
-			String erroCampos = String.join(" ", errors);
+			erroCampos = String.join(" ", errors);
 			throw new CampoObrigatorioException(erroCampos);
 		}
 
 		validaCPF(cliente.getClienteCPF());
 
+		errors.clear();
 		return true;
 	}
 
@@ -57,7 +61,7 @@ public class validacaoDeDados {
 		}
 
 		// Verificar se o CPF é válido usando a fórmula de validação do CPF
-		
+
 		int soma = 0;
 		int peso = 10;
 		for (int i = 0; i < 9; i++) {
@@ -91,6 +95,56 @@ public class validacaoDeDados {
 		}
 
 		return true;
+	}
+
+	public boolean validaCampos(Agencia agencia) {
+		
+		if (agencia == null ) {
+			errors.add("Nome, Endereço, Telefone, Cliente");
+		}
+		if (StringUtils.isBlank(agencia.getNomeAgencia())){
+			errors.add("Nome");
+		}
+		if (StringUtils.isBlank(agencia.getEndereco())) {
+			errors.add("Endereço");
+		}
+		if (StringUtils.isBlank(agencia.getTelefone())) {
+			errors.add("Telefone");
+		}
+		if (!errors.isEmpty()) {
+			erroCampos = String.join(" ", errors);
+			throw new CampoObrigatorioException(erroCampos);
+		}
+
+		errors.clear();
+
+		return true;
+
+	}
+
+	public boolean validaCampos(ContaCorrente contaCorrente) {
+		
+		if (contaCorrente == null) {
+			errors.add("Agencia, Numero da Conta Corrente, Cliente");
+		}
+		if (StringUtils.isBlank(contaCorrente.getContaCorrenteNumero())) {
+			errors.add("Numero da Conta Corrente");
+		}
+		if (contaCorrente.getIdAgencia() == null) {
+			errors.add("Agencia");
+		}
+		if (contaCorrente.getIdCliente() == null) {
+			errors.add("Cliente");
+		}
+		if (!errors.isEmpty()) {
+			erroCampos = String.join(" ", errors);
+			throw new CampoObrigatorioException(erroCampos);
+		}
+
+		errors.clear();
+
+		return true;
+
 	}
 
 }

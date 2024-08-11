@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bankaccenture.Projeto_Bank_Accenture.commons.validacaoDeDados;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.ContaCorrenteNaoEncontradaException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.SaldoInsuficienteException;
 import com.bankaccenture.Projeto_Bank_Accenture.model.Agencia;
@@ -19,7 +20,8 @@ public class ContaCorrenteService {
 
 	@Autowired
 	private ContaCorrenteRepository contaCorrenteRepository;
-
+	private validacaoDeDados validacaoDeDados = new validacaoDeDados();
+	
 	@Transactional(readOnly = true)
 	public List<ContaCorrente> listarContaCorrentes() {
 		return contaCorrenteRepository.findAll();
@@ -35,9 +37,7 @@ public class ContaCorrenteService {
 	@Transactional(readOnly = false)
 	public ContaCorrente cadastrarContaCorrente(ContaCorrente contaCorrente) {
 		
-		
-		
-		
+		validacaoDeDados.validaCampos(contaCorrente);
 		return contaCorrenteRepository.save(contaCorrente);
 	}
 
