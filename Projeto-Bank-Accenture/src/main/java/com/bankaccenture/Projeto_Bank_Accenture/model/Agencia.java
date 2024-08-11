@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,10 +30,15 @@ public class Agencia implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idAgencia;
 	
+	@NotBlank(message = "Informe o nome da agência.")
 	@Column(name="agencia", nullable = false)
 	private String nomeAgencia;
+	
+	@NotBlank(message = "Informe o endereço da agência.")
 	@Column(name="endereco", nullable = false)
 	private String endereco;
+	
+	@NotBlank(message = "Informe o telefone da agência.")
 	@Column(name="telefone", nullable = false)
 	private String telefone;
 	

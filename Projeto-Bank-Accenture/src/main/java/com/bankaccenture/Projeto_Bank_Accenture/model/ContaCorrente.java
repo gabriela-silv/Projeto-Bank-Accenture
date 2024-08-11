@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,6 +35,7 @@ public class ContaCorrente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idContaCorrente;
 	
+	@NotBlank(message = "Informe o número da conta corrente.")
 	@Column(name = "numero", nullable = false)
 	private String contaCorrenteNumero;
 	
@@ -41,6 +43,7 @@ public class ContaCorrente implements Serializable {
 	@JoinColumn(name="idCliente", nullable = false)
 	private Cliente idCliente;
 	
+	@NotBlank(message = "Informe o saldo da conta.")
 	@Column(name = "saldo", nullable = false)
 	private BigDecimal contaCorrenteSaldo;
 	
