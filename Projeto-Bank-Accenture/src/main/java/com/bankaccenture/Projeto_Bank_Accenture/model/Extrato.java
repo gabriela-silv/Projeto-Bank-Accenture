@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,10 +35,12 @@ public class Extrato implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idExtrato;
 	
+	@NotBlank(message = "Informe a data e a hora da operação.")
 	@Column(name= "horarioMovimentacao", nullable = false)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss", timezone = "GMT-3")
 	private LocalDateTime dataHoraMovimento;
 	
+	@NotBlank(message = "Informe o tipo da operação.")
 	@Column(name = "tipoOperacao", nullable = false)
 	private TipoOperacao operacao;
 	
