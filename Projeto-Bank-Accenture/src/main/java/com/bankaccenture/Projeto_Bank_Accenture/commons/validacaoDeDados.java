@@ -124,9 +124,6 @@ public class validacaoDeDados {
 
 	public boolean validaCampos(ContaCorrente contaCorrente) {
 		
-		if (contaCorrente == null) {
-			errors.add("Agencia, Numero da Conta Corrente, Cliente");
-		}
 		if (StringUtils.isBlank(contaCorrente.getContaCorrenteNumero())) {
 			errors.add("Numero da Conta Corrente");
 		}

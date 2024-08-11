@@ -17,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bankaccenture.Projeto_Bank_Accenture.exception.CampoObrigatorioException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.ContaCorrenteNaoEncontradaException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.SaldoInsuficienteException;
 import com.bankaccenture.Projeto_Bank_Accenture.model.ContaCorrente;
@@ -236,6 +237,60 @@ class ContaCorrenteTest {
 			contaCorrenteService.transferir(contaCorrente.getIdContaCorrente(), contaDestino.getIdContaCorrente(),
 					BigDecimal.valueOf(500));
 		});
-
 	}
+	
+	@Test
+	void testValidaCamposAgenciaNula() {
+	    ContaCorrente contaCorrente = new ContaCorrente();
+	    contaCorrente.setContaCorrenteNumero("123456");
+	    contaCorrente.setIdCliente(cliente);
+
+	    Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
+	        contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+	    });
+
+	    assertEquals("Preencha os campos obrigatórios: Agencia", exception.getMessage());
+	}
+
+	@Test
+	void testValidaCamposContaCorrenteNumeroVazio() {
+	    ContaCorrente contaCorrente = new ContaCorrente();
+	    contaCorrente.setIdAgencia(agencia);
+	    contaCorrente.setContaCorrenteNumero("");
+	    contaCorrente.setIdCliente(cliente);
+
+	    Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
+	        contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+	    });
+
+	    assertEquals("Preencha os campos obrigatórios: Numero da Conta Corrente", exception.getMessage());
+	}
+
+	@Test
+	void testValidaCamposIDClienteNulo() {
+	    ContaCorrente contaCorrente = new ContaCorrente();
+	    contaCorrente.setIdAgencia(agencia);
+	    contaCorrente.setContaCorrenteNumero("123456");
+
+	    Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
+	        contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+	    });
+
+	    assertEquals("Preencha os campos obrigatórios: Cliente", exception.getMessage());
+	}
+
+	@Test
+	void testValidaCamposTodosCamposVazios() {
+	    ContaCorrente contaCorrente = new ContaCorrente();
+
+	    Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
+	        contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+	    });
+
+	    assertEquals("Preencha os campos obrigatórios: Numero da Conta Corrente Agencia Cliente", exception.getMessage());
+	}
+	
+	
+	
+	
 }
