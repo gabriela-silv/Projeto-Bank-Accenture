@@ -8,7 +8,7 @@ public class ContaCorrenteNaoEncontradaException extends RuntimeException {
         super(message);
     }
 
-    public ContaCorrenteNaoEncontradaException(Long contaCorrenteId) {
+    public ContaCorrenteNaoEncontradaException(int contaCorrenteId) {
         super("Conta corrente destino não encontrada com ID " + contaCorrenteId);
     }
 }

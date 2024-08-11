@@ -1,6 +1,7 @@
 package com.bankaccenture.Projeto_Bank_Accenture.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -41,7 +42,7 @@ public class ContaCorrente implements Serializable {
 	private Cliente idCliente;
 	
 	@Column(name = "saldo", nullable = false)
-	private double contaCorrenteSaldo;
+	private BigDecimal contaCorrenteSaldo;
 	
 	@ManyToOne
 	@JoinColumn(name="idAgencia", nullable = false)

@@ -73,7 +73,6 @@ public class ClienteTest {
     @Test
     void testCadastrarCliente() {
         clienteService.cadastrarCliente(cliente1);
-
         verify(clienteRepository, times(1)).save(cliente1);
     }
 
