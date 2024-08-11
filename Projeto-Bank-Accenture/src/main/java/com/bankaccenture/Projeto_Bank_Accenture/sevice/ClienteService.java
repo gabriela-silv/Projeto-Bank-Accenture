@@ -43,6 +43,30 @@ public class ClienteService {
 	public Cliente atualizarCliente(Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
+	
+	@Transactional(readOnly = false)
+	public Cliente alterarNomeCliente(int id, String novoNome) {
+	    Cliente cliente = listarClientePorId(id);
+	    cliente.setClienteNome(novoNome);
+	    validacaoDeDados.validaCampos(cliente);    
+	    return atualizarCliente(cliente);
+	}
+
+	@Transactional(readOnly = false)
+	public Cliente alterarTelefoneCliente(int id, String novoTelefone) {
+		Cliente cliente = listarClientePorId(id);
+	    cliente.setClienteFone(novoTelefone);
+	    validacaoDeDados.validaCampos(cliente);    
+	    return atualizarCliente(cliente);
+	}
+
+	@Transactional(readOnly = false)
+	public Cliente alterarCPFCliente(int id, String novoCPF) {
+		Cliente cliente = listarClientePorId(id);
+	    cliente.setClienteCPF(novoCPF);
+	    validacaoDeDados.validaCampos(cliente);    
+	    return atualizarCliente(cliente);
+	}
 
 	@Transactional(readOnly = false)
 	public String deletarClientePorId(Cliente cliente) {

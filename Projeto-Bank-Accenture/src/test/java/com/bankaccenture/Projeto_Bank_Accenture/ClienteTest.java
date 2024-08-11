@@ -171,4 +171,43 @@ public class ClienteTest {
 
 		assertEquals("Preencha os campos obrigatórios: Telefone", exception.getMessage());
 	}
+	
+	@Test
+	void testAlterarNomeCliente() {
+	    when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente1));
+	    when(clienteRepository.save(cliente1)).thenReturn(cliente1);
+
+	    Cliente clienteAtualizado = clienteService.alterarNomeCliente(1, "Joãozinho");
+
+	    assertNotNull(clienteAtualizado);
+	    assertEquals("Joãozinho", clienteAtualizado.getClienteNome());
+	    verify(clienteRepository, times(1)).findById(1);
+	    verify(clienteRepository, times(1)).save(cliente1);
+	}
+	
+	@Test
+	void testAlterarTelefoneCliente() {
+	    when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente1));
+	    when(clienteRepository.save(cliente1)).thenReturn(cliente1);
+
+	    Cliente clienteAtualizado = clienteService.alterarTelefoneCliente(1, "9999999999");
+
+	    assertNotNull(clienteAtualizado);
+	    assertEquals("9999999999", clienteAtualizado.getClienteFone());
+	    verify(clienteRepository, times(1)).findById(1);
+	    verify(clienteRepository, times(1)).save(cliente1);
+	}
+
+	@Test
+	void testAlterarCPFCliente() {
+	    when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente1));
+	    when(clienteRepository.save(cliente1)).thenReturn(cliente1);
+
+	    Cliente clienteAtualizado = clienteService.alterarCPFCliente(1, "63112774094");
+
+	    assertNotNull(clienteAtualizado);
+	    assertEquals("63112774094", clienteAtualizado.getClienteCPF());
+	    verify(clienteRepository, times(1)).findById(1);
+	    verify(clienteRepository, times(1)).save(cliente1);
+	}
 }
