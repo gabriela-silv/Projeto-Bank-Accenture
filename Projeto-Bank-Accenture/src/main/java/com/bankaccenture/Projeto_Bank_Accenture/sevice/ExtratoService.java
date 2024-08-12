@@ -5,10 +5,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bankaccenture.Projeto_Bank_Accenture.enums.TipoOperacao;
+import com.bankaccenture.Projeto_Bank_Accenture.events.ContaCorrenteEvent;
 import com.bankaccenture.Projeto_Bank_Accenture.model.ContaCorrente;
 import com.bankaccenture.Projeto_Bank_Accenture.model.Extrato;
 import com.bankaccenture.Projeto_Bank_Accenture.repository.ExtratoRepository;
@@ -35,17 +37,16 @@ public class ExtratoService {
 		return extratoRepository.save(extrato);
 	}
 	
-	@Transactional(readOnly = false)
-	public Extrato cadastrarExtrato(ContaCorrente contaCorrente, BigDecimal valor, TipoOperacao tipoOperacao){
-		
-		Extrato extrato = new Extrato();
+	@EventListener
+    @Transactional(readOnly = false)
+    public void handleContaCorrenteOperacaoEvent(ContaCorrenteEvent event) {
+        Extrato extrato = new Extrato();
         extrato.setDataHoraMovimento(LocalDateTime.now());
-        extrato.setOperacao(tipoOperacao);
-        extrato.setValor(valor);
-        extrato.setIdContaCorrente(contaCorrente);
-		
-		return extratoRepository.save(extrato);
-	}
+        extrato.setOperacao(event.getTipoOperacao());
+        extrato.setValor(event.getValor());
+        extrato.setIdContaCorrente(event.getIdContaCorrente());
+        extratoRepository.save(extrato);
+    }
 	
 	@Transactional(readOnly = false)
 	public Extrato atualizarExtrato(Extrato extrato){
@@ -58,4 +59,6 @@ public class ExtratoService {
 		extratoRepository.deleteById(extrato.getIdExtrato());
 		return "Extrato de id " + id + " deletado com sucesso";
 	}
+    
+	   
 }

@@ -4,11 +4,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bankaccenture.Projeto_Bank_Accenture.commons.validacaoDeDados;
 import com.bankaccenture.Projeto_Bank_Accenture.enums.TipoOperacao;
+import com.bankaccenture.Projeto_Bank_Accenture.events.ContaCorrenteEvent;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.ContaCorrenteNaoEncontradaException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.SaldoInsuficienteException;
 import com.bankaccenture.Projeto_Bank_Accenture.model.Agencia;
@@ -22,8 +24,9 @@ public class ContaCorrenteService {
 	@Autowired
 	private ContaCorrenteRepository contaCorrenteRepository;
 	private validacaoDeDados validacaoDeDados = new validacaoDeDados();
+
 	@Autowired
-	private ExtratoService extratoService;
+	private ApplicationEventPublisher eventPublisher;
 
 	@Transactional(readOnly = true)
 	public List<ContaCorrente> listarContaCorrentes() {
@@ -83,8 +86,8 @@ public class ContaCorrenteService {
 		ContaCorrente contaCorrente = listarContaCorrentePorId(idCcontaCorrente);
 		contaCorrente.setContaCorrenteSaldo(contaCorrente.getContaCorrenteSaldo().add(valor));
 		contaCorrenteRepository.save(contaCorrente);
-
-		extratoService.cadastrarExtrato(contaCorrente, valor, TipoOperacao.DEPOSITO);
+		eventPublisher.publishEvent(new ContaCorrenteEvent(this, contaCorrente, valor, TipoOperacao.DEPOSITO));
+		
 	}
 
 	@Transactional(readOnly = false)
@@ -93,10 +96,9 @@ public class ContaCorrenteService {
 		if (contaCorrente.getContaCorrenteSaldo().compareTo(valor) < 0) {
 			throw new SaldoInsuficienteException("Saldo insuficiente");
 		}
-
 		contaCorrente.setContaCorrenteSaldo(contaCorrente.getContaCorrenteSaldo().subtract(valor));
 		contaCorrenteRepository.save(contaCorrente);
-		extratoService.cadastrarExtrato(contaCorrente, valor, TipoOperacao.SAQUE);
+		eventPublisher.publishEvent(new ContaCorrenteEvent(this, contaCorrente, valor, TipoOperacao.SAQUE));
 	}
 
 	@Transactional(readOnly = false)
@@ -114,9 +116,8 @@ public class ContaCorrenteService {
 		contaCorrenteDestino.setContaCorrenteSaldo(contaCorrenteDestino.getContaCorrenteSaldo().add(valor));
 		contaCorrenteRepository.save(contaCorrenteDestino);
 
-		extratoService.cadastrarExtrato(contaCorrenteOrigem, valor.multiply(BigDecimal.valueOf(-1)),
-				TipoOperacao.TRANSFERENCIA);
-		extratoService.cadastrarExtrato(contaCorrenteDestino, valor, TipoOperacao.TRANSFERENCIA);
+		eventPublisher.publishEvent(new ContaCorrenteEvent(this, contaCorrenteOrigem, valor.negate(), TipoOperacao.TRANSFERENCIA));
+        eventPublisher.publishEvent(new ContaCorrenteEvent(this, contaCorrenteDestino, valor, TipoOperacao.TRANSFERENCIA));
 	}
 
 }
