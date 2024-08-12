@@ -69,9 +69,14 @@ public class ClienteService {
 	}
 
 	@Transactional(readOnly = false)
-	public String deletarClientePorId(Cliente cliente) {
-		int id = cliente.getIdCliente();
-		clienteRepository.deleteById(cliente.getIdCliente());
+	public String deletarCliente(Cliente cliente) {
+		clienteRepository.delete(cliente);;
+		return "Cliente deletado com sucesso";
+	}
+	
+	@Transactional(readOnly = false)
+	public String deletarClientePorId(int id) {
+		clienteRepository.deleteById(id);
 		return "Cliente de id " + id + " deletado com sucesso";
 	}
 

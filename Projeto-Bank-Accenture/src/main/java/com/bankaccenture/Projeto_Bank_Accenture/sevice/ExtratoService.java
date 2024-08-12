@@ -53,9 +53,15 @@ public class ExtratoService {
 	}
 	
 	@Transactional(readOnly = false)
-	public String deletarExtratoPorId(Extrato extrato) {
+	public String deletarExtrato(Extrato extrato) {
 		int id = extrato.getIdExtrato();
-		extratoRepository.deleteById(extrato.getIdExtrato());
+		extratoRepository.delete(extrato);
+		return "Extrato de id " + id + " deletado com sucesso";
+	}
+	
+	@Transactional(readOnly = false)
+	public String deletarExtratoPorId(int id) {
+		extratoRepository.deleteById(id);
 		return "Extrato de id " + id + " deletado com sucesso";
 	}
 }

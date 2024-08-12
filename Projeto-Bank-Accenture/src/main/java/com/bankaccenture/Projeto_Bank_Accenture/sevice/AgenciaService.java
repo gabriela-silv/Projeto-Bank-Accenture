@@ -42,9 +42,15 @@ public class AgenciaService {
 	}
 	
 	@Transactional(readOnly = false)
-	public String deletarAgenciaPorId(Agencia agencia) {
+	public String deletarAgencia(Agencia agencia) {
 		int id = agencia.getIdAgencia();
-		agenciaRepository.deleteById(agencia.getIdAgencia());
+		agenciaRepository.delete(agencia);
+		return "Agencia de id " + id + " deletada com sucesso";
+	}
+	
+	@Transactional(readOnly = false)
+	public String deletarAgenciaPorId(int id) {
+		agenciaRepository.deleteById(id);
 		return "Agencia de id " + id + " deletada com sucesso";
 	}
 

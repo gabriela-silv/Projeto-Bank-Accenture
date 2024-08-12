@@ -91,7 +91,7 @@ public class ClienteTest {
 	void testDeletarClientePorId() {
 		doNothing().when(clienteRepository).deleteById(cliente1.getIdCliente());
 
-		String result = clienteService.deletarClientePorId(cliente1);
+		String result = clienteService.deletarClientePorId(cliente1.getIdCliente());
 
 		assertEquals("Cliente de id 1 deletado com sucesso", result);
 		verify(clienteRepository, times(1)).deleteById(cliente1.getIdCliente());

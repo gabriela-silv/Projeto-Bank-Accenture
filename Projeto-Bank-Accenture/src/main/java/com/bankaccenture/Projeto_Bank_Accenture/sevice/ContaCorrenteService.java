@@ -42,6 +42,13 @@ public class ContaCorrenteService {
 		validacaoDeDados.validaCampos(contaCorrente);
 		return contaCorrenteRepository.save(contaCorrente);
 	}
+	
+	@Transactional(readOnly = false)
+	public ContaCorrente atualizarContaCorrente(ContaCorrente contaCorrente) {
+
+		validacaoDeDados.validaCampos(contaCorrente);
+		return contaCorrenteRepository.save(contaCorrente);
+	}
 
 	@Transactional(readOnly = false)
 	public ContaCorrente atualizarNumeroContaCorrente(int idContaCorrente, String novoNumero) {
@@ -70,12 +77,18 @@ public class ContaCorrenteService {
 		contaCorrente.setIdAgencia(novaAgencia);
 		return contaCorrenteRepository.save(contaCorrente);
 	}
-
+	
+	@Transactional(readOnly = false)
+	public String deletarContaCorrente(ContaCorrente contaCorrente ) {
+		contaCorrenteRepository.delete(contaCorrente);
+		return "Conta corrente deletada com sucesso";
+	}
+	
 	@Transactional(readOnly = false)
 	public String deletarContaCorrentePorId(int idContaCorrente) {
 
 		contaCorrenteRepository.deleteById(idContaCorrente);
-		return "Cliente de id " + idContaCorrente + " deletada com sucesso";
+		return "Conta corrente de id " + idContaCorrente + " deletada com sucesso";
 	}
 
 	@Transactional(readOnly = false)
