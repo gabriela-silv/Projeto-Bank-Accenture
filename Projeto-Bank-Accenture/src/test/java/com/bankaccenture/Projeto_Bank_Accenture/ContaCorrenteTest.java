@@ -128,8 +128,14 @@ class ContaCorrenteTest {
 		
 		assertEquals(BigDecimal.valueOf(1500), contaCorrente.getContaCorrenteSaldo());
 		verify(contaCorrenteRepository, times(1)).save(any(ContaCorrente.class));
-		// criar classe transacaoEvent para registrar os eventos de saque/deposito/transferencia
 		verify(eventPublisher, times(1)).publishEvent(any(TransacaoEvent.class)); 
+		
+		ArgumentCaptor<TransacaoEvent> eventCaptor = ArgumentCaptor.forClass(TransacaoEvent.class);
+        verify(eventPublisher).publishEvent(eventCaptor.capture());
+        TransacaoEvent capturedEvent = eventCaptor.getValue();
+        assertEquals(contaCorrente, capturedEvent.getContaCorrente());
+        assertEquals(valorDeposito, capturedEvent.getValor());
+        assertEquals(TipoOperacao.DEPOSITO, capturedEvent.getTipoOperacao());
 		
 		
 	}
