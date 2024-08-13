@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,12 @@ public class ClienteController {
 		return clienteService.listarClientes();
 	}
 	
+	@GetMapping("/cliente/{id}")
+	private Cliente getClientePorId(@PathVariable("id") int id) 
+	{
+	    return clienteService.listarClientePorId(id);
+	}
+	
 	//Inserir clientes
 	@PostMapping("/cliente-inserir")
 	private int salvarCliente(@RequestBody Cliente cliente) 
@@ -35,29 +42,18 @@ public class ClienteController {
 		return cliente.getIdCliente();
 	}
 	
-	//Atualizar clientes
-	@PutMapping("/cliente-atualizar")
-	private int atualizarCliente(@RequestBody Cliente cliente) 
-	{
-		clienteService.atualizarCliente(cliente);
-		
+	@PutMapping("/cliente-atualizar/{id}")
+	private int atualizarAgencia(@RequestBody Cliente cliente,@PathVariable("id") int id) {
+		clienteService.atualizarCliente(cliente, id);
+
 		return cliente.getIdCliente();
 	}
 	
-	//Deletar clientes
-	@DeleteMapping("/cliente-deletar")
-	private int deletarCliente(@RequestBody Cliente cliente) 
-	{
-		int id = cliente.getIdCliente();
-		clienteService.deletarCliente(cliente);
-		return id;
-	}
-	
-	//Deletar clientes por id
-	@DeleteMapping("/cliente-deletar-por-id")
-	private String deletarClientePorId(int id) 
-	{
-		return clienteService.deletarClientePorId(id);
+	@DeleteMapping("/cliente-deletar/{id}")
+	private void deletarClientePorId(@PathVariable("id") int id) {
+		Cliente cliente = clienteService.listarClientePorId(id);
+
+		clienteService.deletarClientePorId(cliente);
 	}
 	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,15 +20,27 @@ public class ContaCorrenteController {
 	@Autowired
 	ContaCorrenteService contaCorrenteService;
 	
-	//Listar contas correntes
 	@GetMapping("/conta-corrente")
-	private List<ContaCorrente> istarContaCorrentes(){
+	private List<ContaCorrente> listarContaCorrentes(){
 		
 		return contaCorrenteService.listarContaCorrentes();	
 	}
 	
-	//Inserir conta corrente
-	@PostMapping("/conta-corrente-inserir")
+	@GetMapping("/conta-corrente/{id}")
+	private ContaCorrente listarContaCorrentePorId(@PathVariable("id") int id) 
+	{
+	    return contaCorrenteService.listarContaCorrentePorId(id);
+	}
+	
+	@PutMapping("/conta-corrente-atualizar/{id}")
+	private int atualizarContaCorrente(@RequestBody ContaCorrente cc,@PathVariable("id") int id) {
+		contaCorrenteService.atualizarContaCorrente(cc, id);
+
+		return cc.getIdContaCorrente();
+	}
+	
+	
+	@PostMapping("/inserir-conta-corrente")
 	private int salvarContaCorrente(@RequestBody ContaCorrente contaCorrente) {
 		
 		contaCorrenteService.cadastrarContaCorrente(contaCorrente);
@@ -35,29 +48,13 @@ public class ContaCorrenteController {
 		return contaCorrente.getIdContaCorrente();	
 	}
 	
-	//Atualizar conta corrente
-	@PutMapping("/conta-corrente-atualizar")
-	private int atualizarContaCorrente(@RequestBody ContaCorrente contaCorrente) 
-	{
-		contaCorrenteService.atualizarContaCorrente(contaCorrente);
-		
-		return contaCorrente.getIdContaCorrente();
+	@DeleteMapping("/conta-corrente-deletar/{id}")
+	private void deletarContaCorrentePorId(@PathVariable("id") int id) {
+		ContaCorrente cc = contaCorrenteService.listarContaCorrentePorId(id);
+
+		contaCorrenteService.deletarContaCorrentePorId(cc);
 	}
 	
-	//Deletar conta corrente
-	@DeleteMapping("/conta-corrente-deletar")
-	private int deletarContaCorrente(@RequestBody ContaCorrente contaCorrente) 
-	{
-		int id = contaCorrente.getIdContaCorrente();
-		contaCorrenteService.deletarContaCorrente(contaCorrente);
-		return id;
-	}
 	
-	//Deletar conta corrente por id
-	@DeleteMapping("/conta-corrente-deletar-por-id")
-	private String deletarContaCorrentePorId(int id) 
-	{
-		return contaCorrenteService.deletarContaCorrentePorId(id);
-	}
 
 }

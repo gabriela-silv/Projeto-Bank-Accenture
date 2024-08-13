@@ -13,48 +13,47 @@ import com.bankaccenture.Projeto_Bank_Accenture.repository.AgenciaRepository;
 
 @Service
 public class AgenciaService {
-	
+
 	@Autowired
 	private AgenciaRepository agenciaRepository;
 	private validacaoDeDados validacaoDeDados = new validacaoDeDados();
-	
+
 	@Transactional(readOnly = true)
-	public List<Agencia> listarAgencias(){
+	public List<Agencia> listarAgencias() {
 		return agenciaRepository.findAll();
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Agencia listarAgenciaPorId(int id) {
 		Agencia agencia = agenciaRepository.findById(id).orElse(null);
 		return agencia;
 	}
-	
+
 	@Transactional(readOnly = false)
-	public Agencia cadastrarAgencia(Agencia agencia)  throws CampoObrigatorioException {
-		
+	public Agencia cadastrarAgencia(Agencia agencia) throws CampoObrigatorioException {
+
 		validacaoDeDados.validaCampos(agencia);
 		return agenciaRepository.save(agencia);
 	}
-	
+
 	@Transactional(readOnly = false)
-	public Agencia atualizarAgencia(Agencia agencia){
-		return agenciaRepository.save(agencia);
+	public Agencia atualizarAgencia(Agencia agencia, int id) {
+
+		Agencia ag = this.listarAgenciaPorId(id);
+		
+		ag.setEndereco(agencia.getEndereco());
+		ag.setNomeAgencia(agencia.getNomeAgencia());
+		ag.setTelefone(agencia.getTelefone());
+		ag.setIdCliente(agencia.getIdCliente());
+
+		return agenciaRepository.save(ag);
 	}
-	
+
 	@Transactional(readOnly = false)
-	public String deletarAgencia(Agencia agencia) {
+	public String deletarAgenciaPorId(Agencia agencia) {
 		int id = agencia.getIdAgencia();
-		agenciaRepository.delete(agencia);
-		return "Agencia de id " + id + " deletada com sucesso";
-	}
-	
-	@Transactional(readOnly = false)
-	public String deletarAgenciaPorId(int id) {
-		agenciaRepository.deleteById(id);
+		agenciaRepository.deleteById(agencia.getIdAgencia());
 		return "Agencia de id " + id + " deletada com sucesso";
 	}
 
-	
-	
-	
 }

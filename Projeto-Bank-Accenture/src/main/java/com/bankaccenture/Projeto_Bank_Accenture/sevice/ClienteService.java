@@ -38,45 +38,27 @@ public class ClienteService {
 		validacaoDeDados.validaCampos(cliente);
 		return clienteRepository.save(cliente);
 	}
-
-	@Transactional(readOnly = false)
-	public Cliente atualizarCliente(Cliente cliente) {
-		return clienteRepository.save(cliente);
-	}
 	
-	@Transactional(readOnly = false)
-	public Cliente atualizarNomeCliente(int id, String novoNome) {
-	    Cliente cliente = listarClientePorId(id);
-	    cliente.setClienteNome(novoNome);
-	    validacaoDeDados.validaCampos(cliente);    
-	    return atualizarCliente(cliente);
-	}
-
-	@Transactional(readOnly = false)
-	public Cliente atualizarTelefoneCliente(int id, String novoTelefone) {
-		Cliente cliente = listarClientePorId(id);
-	    cliente.setClienteFone(novoTelefone);
-	    validacaoDeDados.validaCampos(cliente);    
-	    return atualizarCliente(cliente);
-	}
-
-	@Transactional(readOnly = false)
-	public Cliente atualizarCPFCliente(int id, String novoCPF) {
-		Cliente cliente = listarClientePorId(id);
-	    cliente.setClienteCPF(novoCPF);
-	    validacaoDeDados.validaCampos(cliente);    
-	    return atualizarCliente(cliente);
-	}
-
-	@Transactional(readOnly = false)
-	public String deletarCliente(Cliente cliente) {
-		clienteRepository.delete(cliente);;
-		return "Cliente deletado com sucesso";
-	}
 	
+
 	@Transactional(readOnly = false)
-	public String deletarClientePorId(int id) {
-		clienteRepository.deleteById(id);
+	public Cliente atualizarCliente(Cliente cliente, int id) {
+
+		Cliente cl = this.listarClientePorId(id);
+		
+		cl.setClienteNome(cliente.getClienteNome());
+		cl.setClienteCPF(cliente.getClienteCPF());
+		cl.setClienteFone(cliente.getClienteFone());
+		
+
+		return clienteRepository.save(cl);
+	}
+
+
+	@Transactional(readOnly = false)
+	public String deletarClientePorId(Cliente cliente) {
+		int id = cliente.getIdCliente();
+		clienteRepository.deleteById(cliente.getIdCliente());
 		return "Cliente de id " + id + " deletado com sucesso";
 	}
 

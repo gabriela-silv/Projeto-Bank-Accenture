@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,48 +16,42 @@ import com.bankaccenture.Projeto_Bank_Accenture.sevice.AgenciaService;
 
 @RestController
 public class AgenciaController {
-	
+
 	@Autowired
 	AgenciaService agenciaService;
-	
-	//Listar agências
+
 	@GetMapping("/agencias")
 	private List<Agencia> listarAgencias() {
 		return agenciaService.listarAgencias();
 	}
 	
-	//Cadastrar agência
+	@GetMapping("/agencia/{id}")
+	private Agencia getAgenciaPorId(@PathVariable("id") int id) 
+	{
+	    return agenciaService.listarAgenciaPorId(id);
+	}
+	
 	@PostMapping("/agencia-inserir")
 	private int salvarAgencia(@RequestBody Agencia agencia) {
-		
+
 		agenciaService.cadastrarAgencia(agencia);
-		
+
 		return agencia.getIdAgencia();
 	}
-	
-	//Atualizar agência
-	@PutMapping("/agencia-atualizar")
-	private int atualizarAgencia(@RequestBody Agencia agencia) 
-	{
-		agenciaService.atualizarAgencia(agencia);
-		
+
+
+	@PutMapping("/agencia-atualizar/{id}")
+	private int atualizarAgencia(@RequestBody Agencia agencia,@PathVariable("id") int id) {
+		agenciaService.atualizarAgencia(agencia, id);
+
 		return agencia.getIdAgencia();
 	}
-	
-	//Deletar agencia
-	@DeleteMapping("/agencia-deletar")
-	private int deletarAgencia(@RequestBody Agencia agencia) 
-	{
-		int id = agencia.getIdAgencia();
-		agenciaService.deletarAgencia(agencia);
-		return id;
-	}
-	
-	//Deletar agencia por id
-	@DeleteMapping("/agencia-deletar-por-id")
-	private String deletarAgenciaPorId(int id) 
-	{
-		return agenciaService.deletarAgenciaPorId(id);
+
+	@DeleteMapping("/agencia/{id}")
+	private void deletarAgenciaPorId(@PathVariable("id") int id) {
+		Agencia agencia = agenciaService.listarAgenciaPorId(id);
+
+		agenciaService.deletarAgenciaPorId(agencia);
 	}
 
 }

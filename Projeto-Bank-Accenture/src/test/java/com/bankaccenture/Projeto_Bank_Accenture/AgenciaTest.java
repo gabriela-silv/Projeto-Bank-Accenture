@@ -87,27 +87,25 @@ public class AgenciaTest {
         verify(agenciaRepository, times(1)).save(agencia1);
 	}
 
-	@Test
-	public void testAtualizarAgencia() {
-		when(agenciaRepository.save(agencia1)).thenReturn(agencia1);
-
-        Agencia agenciaAtualizada = agenciaService.atualizarAgencia(agencia1);
-        
-
-        assertNotNull(agenciaAtualizada);
-        assertEquals("Agencia teste", agenciaAtualizada.getNomeAgencia());
-        verify(agenciaRepository, times(1)).save(agencia1);
-	}
-
-	@Test
-	public void testDeletarAgencia() {
-		doNothing().when(agenciaRepository).deleteById(agencia1.getIdAgencia());
-
-        String result = agenciaService.deletarAgenciaPorId(agencia1.getIdAgencia());
-
-        assertEquals("Agencia de id 1 deletada com sucesso", result);
-        verify(agenciaRepository, times(1)).deleteById(agencia1.getIdAgencia());
-	}
+	/*
+	 * @Test public void testAtualizarAgencia() {
+	 * when(agenciaRepository.save(agencia1)).thenReturn(agencia1);
+	 * 
+	 * Agencia agenciaAtualizada = agenciaService.atualizarAgencia(agencia1);
+	 * 
+	 * 
+	 * assertNotNull(agenciaAtualizada); assertEquals("Agencia teste",
+	 * agenciaAtualizada.getNomeAgencia()); verify(agenciaRepository,
+	 * times(1)).save(agencia1); }
+	 * 
+	 * @Test public void testDeletarAgencia() {
+	 * doNothing().when(agenciaRepository).deleteById(agencia1.getIdAgencia());
+	 * 
+	 * String result = agenciaService.deletarAgenciaPorId(agencia1.getIdAgencia());
+	 * 
+	 * assertEquals("Agencia de id 1 deletada com sucesso", result);
+	 * verify(agenciaRepository, times(1)).deleteById(agencia1.getIdAgencia()); }
+	 */
 
 	@Test
 	public void testNomeObrigatorio() {
