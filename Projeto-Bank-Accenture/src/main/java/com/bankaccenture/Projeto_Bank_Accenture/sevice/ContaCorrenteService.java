@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bankaccenture.Projeto_Bank_Accenture.commons.validacaoDeDados;
-import com.bankaccenture.Projeto_Bank_Accenture.enums.TipoOperacao;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.ContaCorrenteNaoEncontradaException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.SaldoInsuficienteException;
 import com.bankaccenture.Projeto_Bank_Accenture.model.ContaCorrente;
@@ -19,9 +18,10 @@ public class ContaCorrenteService {
 
 	@Autowired
 	private ContaCorrenteRepository contaCorrenteRepository;
-	private validacaoDeDados validacaoDeDados = new validacaoDeDados();
-	@Autowired
-	private ExtratoService extratoService;
+	
+	private validacaoDeDados validacaoDeDados;
+	
+
 
 	@Transactional(readOnly = true)
 	public List<ContaCorrente> listarContaCorrentes() {
@@ -67,9 +67,7 @@ public class ContaCorrenteService {
 	public void depositar(int idCcontaCorrente, BigDecimal valor) {
 		ContaCorrente contaCorrente = listarContaCorrentePorId(idCcontaCorrente);
 		contaCorrente.setContaCorrenteSaldo(contaCorrente.getContaCorrenteSaldo().add(valor));
-		contaCorrenteRepository.save(contaCorrente);
-
-		extratoService.cadastrarExtrato(contaCorrente, valor, TipoOperacao.DEPOSITO);
+		contaCorrenteRepository.save(contaCorrente);		
 	}
 
 	@Transactional(readOnly = false)
@@ -81,7 +79,7 @@ public class ContaCorrenteService {
 
 		contaCorrente.setContaCorrenteSaldo(contaCorrente.getContaCorrenteSaldo().subtract(valor));
 		contaCorrenteRepository.save(contaCorrente);
-		extratoService.cadastrarExtrato(contaCorrente, valor, TipoOperacao.SAQUE);
+
 	}
 
 	@Transactional(readOnly = false)
@@ -99,9 +97,6 @@ public class ContaCorrenteService {
 		contaCorrenteDestino.setContaCorrenteSaldo(contaCorrenteDestino.getContaCorrenteSaldo().add(valor));
 		contaCorrenteRepository.save(contaCorrenteDestino);
 
-		extratoService.cadastrarExtrato(contaCorrenteOrigem, valor.multiply(BigDecimal.valueOf(-1)),
-				TipoOperacao.TRANSFERENCIA);
-		extratoService.cadastrarExtrato(contaCorrenteDestino, valor, TipoOperacao.TRANSFERENCIA);
 	}
 
 }

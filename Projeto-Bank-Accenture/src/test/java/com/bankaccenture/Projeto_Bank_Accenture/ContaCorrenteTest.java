@@ -11,12 +11,15 @@ import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationEventPublisher;
 
+import com.bankaccenture.Projeto_Bank_Accenture.enums.TipoOperacao;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.CampoObrigatorioException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.ContaCorrenteNaoEncontradaException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.SaldoInsuficienteException;
@@ -113,11 +116,18 @@ class ContaCorrenteTest {
 
 	@Test
 	void testDepositar() {
+		
+		BigDecimal valorDeposito = BigDecimal.valueOf(500);
 		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(contaCorrente));
 
-		contaCorrenteService.depositar(contaCorrente.getIdContaCorrente(), BigDecimal.valueOf(500));
+		contaCorrenteService.depositar(contaCorrente.getIdContaCorrente(), valorDeposito);
+		
 		assertEquals(BigDecimal.valueOf(1500), contaCorrente.getContaCorrenteSaldo());
 		verify(contaCorrenteRepository, times(1)).save(any(ContaCorrente.class));
+		// criar classe transacaoEvent para registrar os eventos de saque/deposito/transferencia
+		verify(eventPublisher, times(1)).publishEvent(any(TransacaoEvent.class)); 
+		
+		
 	}
 
 	@Test
