@@ -4,10 +4,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bankaccenture.Projeto_Bank_Accenture.commons.validacaoDeDados;
+import com.bankaccenture.Projeto_Bank_Accenture.enums.TipoOperacao;
+import com.bankaccenture.Projeto_Bank_Accenture.event.TransacaoEvent;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.ContaCorrenteNaoEncontradaException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.SaldoInsuficienteException;
 import com.bankaccenture.Projeto_Bank_Accenture.model.ContaCorrente;
@@ -18,6 +21,9 @@ public class ContaCorrenteService {
 
 	@Autowired
 	private ContaCorrenteRepository contaCorrenteRepository;
+	
+	@Autowired
+    private ApplicationEventPublisher eventPublisher;
 	
 	private validacaoDeDados validacaoDeDados;
 	
@@ -67,7 +73,8 @@ public class ContaCorrenteService {
 	public void depositar(int idCcontaCorrente, BigDecimal valor) {
 		ContaCorrente contaCorrente = listarContaCorrentePorId(idCcontaCorrente);
 		contaCorrente.setContaCorrenteSaldo(contaCorrente.getContaCorrenteSaldo().add(valor));
-		contaCorrenteRepository.save(contaCorrente);		
+		contaCorrenteRepository.save(contaCorrente);	
+		eventPublisher.publishEvent(new TransacaoEvent(contaCorrente, valor, TipoOperacao.DEPOSITO));
 	}
 
 	@Transactional(readOnly = false)

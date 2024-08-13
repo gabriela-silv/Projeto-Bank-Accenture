@@ -20,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationEventPublisher;
 
 import com.bankaccenture.Projeto_Bank_Accenture.enums.TipoOperacao;
+import com.bankaccenture.Projeto_Bank_Accenture.event.TransacaoEvent;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.CampoObrigatorioException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.ContaCorrenteNaoEncontradaException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.SaldoInsuficienteException;
@@ -35,6 +36,9 @@ class ContaCorrenteTest {
 
 	@Mock
 	private ContaCorrenteRepository contaCorrenteRepository;
+	
+	@Mock
+    private ApplicationEventPublisher eventPublisher;
 
 	@InjectMocks
 	private ContaCorrenteService contaCorrenteService;
