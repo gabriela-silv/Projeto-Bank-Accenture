@@ -83,10 +83,10 @@ public class ContaCorrenteService {
 		if (contaCorrente.getContaCorrenteSaldo().compareTo(valor) < 0) {
 			throw new SaldoInsuficienteException("Saldo insuficiente");
 		}
-
+		
 		contaCorrente.setContaCorrenteSaldo(contaCorrente.getContaCorrenteSaldo().subtract(valor));
 		contaCorrenteRepository.save(contaCorrente);
-		eventPublisher.publishEvent(new TransacaoEvent(contaCorrente, valor, TipoOperacao.SAQUE));
+		eventPublisher.publishEvent(new TransacaoEvent(contaCorrente, valor.negate(), TipoOperacao.SAQUE));
 
 	}
 
@@ -105,7 +105,7 @@ public class ContaCorrenteService {
 		contaCorrenteDestino.setContaCorrenteSaldo(contaCorrenteDestino.getContaCorrenteSaldo().add(valor));
 		contaCorrenteRepository.save(contaCorrenteDestino);
 		
-		 eventPublisher.publishEvent(new TransacaoEvent(contaCorrenteOrigem, valor, TipoOperacao.TRANSFERENCIA));
+		 eventPublisher.publishEvent(new TransacaoEvent(contaCorrenteOrigem, valor.negate(), TipoOperacao.TRANSFERENCIA));
 	     eventPublisher.publishEvent(new TransacaoEvent(contaCorrenteDestino, valor, TipoOperacao.TRANSFERENCIA));
 
 	}

@@ -5,10 +5,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bankaccenture.Projeto_Bank_Accenture.enums.TipoOperacao;
+import com.bankaccenture.Projeto_Bank_Accenture.event.TransacaoEvent;
 import com.bankaccenture.Projeto_Bank_Accenture.model.ContaCorrente;
 import com.bankaccenture.Projeto_Bank_Accenture.model.Extrato;
 import com.bankaccenture.Projeto_Bank_Accenture.repository.ExtratoRepository;
@@ -39,6 +41,7 @@ public class ExtratoService {
 	public Extrato cadastrarExtrato(ContaCorrente contaCorrente, BigDecimal valor, TipoOperacao tipoOperacao){
 		
 		Extrato extrato = new Extrato();
+		
         extrato.setDataHoraMovimento(LocalDateTime.now());
         extrato.setOperacao(tipoOperacao);
         extrato.setValor(valor);
@@ -48,8 +51,19 @@ public class ExtratoService {
 	}
 	
 	@Transactional(readOnly = false)
-	public Extrato atualizarExtrato(Extrato extrato){
-		return extratoRepository.save(extrato);
+	public Extrato atualizarExtrato(Extrato extrato, int id) {
+
+		Extrato ext = this.listarExtratoPorId(id);
+		
+		ext.setDataHoraMovimento(extrato.getDataHoraMovimento());
+        ext.setOperacao(extrato.getOperacao());
+        ext.setIdContaCorrente(extrato.getIdContaCorrente());
+        ext.setValor(extrato.getValor());
+        
+		
+		System.out.println(ext.toString());
+
+		return extratoRepository.save(ext);
 	}
 	
 	@Transactional(readOnly = false)
@@ -58,4 +72,20 @@ public class ExtratoService {
 		extratoRepository.deleteById(extrato.getIdExtrato());
 		return "Extrato de id " + id + " deletado com sucesso";
 	}
+	
+	@EventListener
+    public void handleTransacaoEvent(TransacaoEvent event) {
+        Extrato extrato = new Extrato();
+        extrato.setIdContaCorrente(event.getContaCorrente());
+        extrato.setValor(event.getValor());
+        extrato.setOperacao(event.getTipoOperacao());
+        extrato.setDataHoraMovimento(LocalDateTime.now());
+
+        extratoRepository.save(extrato);
+    }
+
+	@Transactional(readOnly = true)
+    public List<Extrato> listarExtratosPorContaCorrente(int idContaCorrente) {
+        return extratoRepository.findByIdContaCorrenteIdContaCorrente(idContaCorrente);
+    }
 }
