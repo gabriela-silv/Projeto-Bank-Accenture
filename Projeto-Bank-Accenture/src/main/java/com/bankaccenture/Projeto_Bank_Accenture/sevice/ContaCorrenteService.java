@@ -10,12 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bankaccenture.Projeto_Bank_Accenture.commons.validacaoDeDados;
 import com.bankaccenture.Projeto_Bank_Accenture.enums.TipoOperacao;
-import com.bankaccenture.Projeto_Bank_Accenture.events.ContaCorrenteEvent;
+import com.bankaccenture.Projeto_Bank_Accenture.events.ContaCorrenteTransacoesEvent;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.ContaCorrenteNaoEncontradaException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.SaldoInsuficienteException;
 import com.bankaccenture.Projeto_Bank_Accenture.model.Agencia;
 import com.bankaccenture.Projeto_Bank_Accenture.model.Cliente;
 import com.bankaccenture.Projeto_Bank_Accenture.model.ContaCorrente;
+import com.bankaccenture.Projeto_Bank_Accenture.model.ContaCorrenteTransacoes;
 import com.bankaccenture.Projeto_Bank_Accenture.repository.ContaCorrenteRepository;
 
 @Service
@@ -86,7 +87,8 @@ public class ContaCorrenteService {
 		ContaCorrente contaCorrente = listarContaCorrentePorId(idCcontaCorrente);
 		contaCorrente.setContaCorrenteSaldo(contaCorrente.getContaCorrenteSaldo().add(valor));
 		contaCorrenteRepository.save(contaCorrente);
-		eventPublisher.publishEvent(new ContaCorrenteEvent(this, contaCorrente, valor, TipoOperacao.DEPOSITO));
+		ContaCorrenteTransacoes event = new ContaCorrenteTransacoes(contaCorrente, valor, TipoOperacao.DEPOSITO);
+        eventPublisher.publishEvent(event);
 		
 	}
 
@@ -98,7 +100,8 @@ public class ContaCorrenteService {
 		}
 		contaCorrente.setContaCorrenteSaldo(contaCorrente.getContaCorrenteSaldo().subtract(valor));
 		contaCorrenteRepository.save(contaCorrente);
-		eventPublisher.publishEvent(new ContaCorrenteEvent(this, contaCorrente, valor, TipoOperacao.SAQUE));
+		ContaCorrenteTransacoes event = new ContaCorrenteTransacoes(contaCorrente, valor, TipoOperacao.SAQUE);
+        eventPublisher.publishEvent(event);
 	}
 
 	@Transactional(readOnly = false)
@@ -116,8 +119,8 @@ public class ContaCorrenteService {
 		contaCorrenteDestino.setContaCorrenteSaldo(contaCorrenteDestino.getContaCorrenteSaldo().add(valor));
 		contaCorrenteRepository.save(contaCorrenteDestino);
 
-		eventPublisher.publishEvent(new ContaCorrenteEvent(this, contaCorrenteOrigem, valor.negate(), TipoOperacao.TRANSFERENCIA));
-        eventPublisher.publishEvent(new ContaCorrenteEvent(this, contaCorrenteDestino, valor, TipoOperacao.TRANSFERENCIA));
+		eventPublisher.publishEvent(new ContaCorrenteTransacoesEvent(this, contaCorrenteOrigem, valor.negate(), TipoOperacao.TRANSFERENCIA));
+        eventPublisher.publishEvent(new ContaCorrenteTransacoesEvent(this, contaCorrenteDestino, valor, TipoOperacao.TRANSFERENCIA));
 	}
 
 }

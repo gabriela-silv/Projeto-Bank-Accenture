@@ -16,7 +16,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationEventPublisher;
 
+import com.bankaccenture.Projeto_Bank_Accenture.events.ContaCorrenteTransacoesEvent;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.CampoObrigatorioException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.ContaCorrenteNaoEncontradaException;
 import com.bankaccenture.Projeto_Bank_Accenture.exception.SaldoInsuficienteException;
@@ -32,6 +34,9 @@ class ContaCorrenteTest {
 
 	@Mock
 	private ContaCorrenteRepository contaCorrenteRepository;
+	
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
 
 	@InjectMocks
 	private ContaCorrenteService contaCorrenteService;
@@ -185,6 +190,9 @@ class ContaCorrenteTest {
 		contaCorrenteService.sacar(contaCorrente.getIdContaCorrente(), BigDecimal.valueOf(500));
 		assertEquals(BigDecimal.valueOf(500), contaCorrente.getContaCorrenteSaldo());
 		verify(contaCorrenteRepository, times(1)).save(any(ContaCorrente.class));
+		verify(eventPublisher, times(1)).publishEvent(any(ContaCorrenteTransacoesEvent.class));
+
+		
 	}
 
 	@Test
