@@ -103,7 +103,7 @@ public class AgenciaTest {
 	public void testDeletarAgencia() {
 		doNothing().when(agenciaRepository).deleteById(agencia1.getIdAgencia());
 
-        String result = agenciaService.deletarAgenciaPorId(agencia1);
+        String result = agenciaService.deletarAgenciaPorId(agencia1.getIdAgencia());
 
         assertEquals("Agencia de id 1 deletada com sucesso", result);
         verify(agenciaRepository, times(1)).deleteById(agencia1.getIdAgencia());
