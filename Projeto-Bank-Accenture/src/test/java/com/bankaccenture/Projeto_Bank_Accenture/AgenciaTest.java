@@ -87,18 +87,15 @@ public class AgenciaTest {
         verify(agenciaRepository, times(1)).save(agencia1);
 	}
 	
-/*	@Test
-	public void testAtualizarAgencia() {
-		when(agenciaRepository.save(agencia1)).thenReturn(agencia1);
+    @Test
+    public void testAtualizarAgencia() {
+    	when(agenciaRepository.findById(1)).thenReturn(Optional.of(agencia1));
+    	agenciaService.atualizarAgencia(agencia2, agencia1.getIdAgencia());
 
-        Agencia agenciaAtualizada = agenciaService.atualizarAgencia(agencia1);
-        
+		assertEquals(agencia1.getNomeAgencia(), agencia2.getNomeAgencia());
+		verify(agenciaRepository).save(agencia1);
+    }
 
-        assertNotNull(agenciaAtualizada);
-        assertEquals("Agencia teste", agenciaAtualizada.getNomeAgencia());
-        verify(agenciaRepository, times(1)).save(agencia1);
-	}
-*/
 
 	@Test
 	public void testDeletarAgencia() {

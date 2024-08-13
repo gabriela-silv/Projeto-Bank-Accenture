@@ -76,17 +76,14 @@ public class ClienteTest {
 		verify(clienteRepository, times(1)).save(cliente1);
 	}
 
-	/*
 	@Test
 	void testAtualizarCliente() {
-		when(clienteRepository.save(cliente1)).thenReturn(cliente1);
+    	when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente1));
+    	clienteService.atualizarCliente(cliente2, cliente1.getIdCliente());
 
-		Cliente clienteAtualizado = clienteService.atualizarCliente(cliente1);
-
-		assertNotNull(clienteAtualizado);
-		assertEquals("João", clienteAtualizado.getClienteNome());
-		verify(clienteRepository, times(1)).save(cliente1);
-	} */
+		assertEquals(cliente1.getClienteNome(), cliente2.getClienteNome());
+		verify(clienteRepository).save(cliente1);
+	} 
 
 	@Test
 	void testDeletarClientePorId() {
@@ -172,44 +169,5 @@ public class ClienteTest {
 
 		assertEquals("Preencha os campos obrigatórios: Telefone", exception.getMessage());
 	}
-	
-	/*
-	@Test
-	void testAlterarNomeCliente() {
-	    when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente1));
-	    when(clienteRepository.save(cliente1)).thenReturn(cliente1);
 
-	    Cliente clienteAtualizado = clienteService.atualizarNomeCliente(1, "Joãozinho");
-
-	    assertNotNull(clienteAtualizado);
-	    assertEquals("Joãozinho", clienteAtualizado.getClienteNome());
-	    verify(clienteRepository, times(1)).findById(1);
-	    verify(clienteRepository, times(1)).save(cliente1);
-	}
-	
-	@Test
-	void testAlterarTelefoneCliente() {
-	    when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente1));
-	    when(clienteRepository.save(cliente1)).thenReturn(cliente1);
-
-	    Cliente clienteAtualizado = clienteService.atualizarTelefoneCliente(1, "9999999999");
-
-	    assertNotNull(clienteAtualizado);
-	    assertEquals("9999999999", clienteAtualizado.getClienteFone());
-	    verify(clienteRepository, times(1)).findById(1);
-	    verify(clienteRepository, times(1)).save(cliente1);
-	}
-
-	@Test
-	void testAlterarCPFCliente() {
-	    when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente1));
-	    when(clienteRepository.save(cliente1)).thenReturn(cliente1);
-
-	    Cliente clienteAtualizado = clienteService.atualizarCPFCliente(1, "63112774094");
-
-	    assertNotNull(clienteAtualizado);
-	    assertEquals("63112774094", clienteAtualizado.getClienteCPF());
-	    verify(clienteRepository, times(1)).findById(1);
-	    verify(clienteRepository, times(1)).save(cliente1);
-	}*/
 }

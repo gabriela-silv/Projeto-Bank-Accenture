@@ -100,74 +100,16 @@ class ContaCorrenteTest {
 		verify(contaCorrenteRepository, times(1)).save(contaCorrente);
 	}
 
-	/*
+
 	@Test
-	void testAtualizarNumeroContaCorrente() {
+	void testAtualizarContaCorrente() {
 		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(contaCorrente));
+		contaCorrenteService.atualizarContaCorrente(contaDestino, contaCorrente.getIdContaCorrente());
 
-		contaCorrenteService.atualizarNumeroContaCorrente(contaCorrente.getIdContaCorrente(), "54321");
-
-		assertEquals("54321", contaCorrente.getContaCorrenteNumero());
+		assertEquals(contaCorrente.getContaCorrenteNumero(), contaDestino.getContaCorrenteNumero());
 		verify(contaCorrenteRepository).save(contaCorrente);
+
 	} 
-
-	@Test
-	void testAtualizarSaldoContaCorrente() {
-		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(contaCorrente));
-
-		contaCorrenteService.atualizarSaldoContaCorrente(contaCorrente.getIdContaCorrente(), BigDecimal.valueOf(2000));
-
-		assertEquals(BigDecimal.valueOf(2000), contaCorrente.getContaCorrenteSaldo());
-		verify(contaCorrenteRepository).save(contaCorrente);
-	}
-
-	@Test
-	void testAtualizarClienteContaCorrente() {
-
-		Cliente novoCliente = new Cliente();
-		novoCliente.setIdCliente(2);
-		novoCliente.setClienteNome("Novo Cliente");
-
-		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(contaCorrente));
-
-		contaCorrenteService.atualizarClienteContaCorrente(contaCorrente.getIdContaCorrente(), novoCliente);
-
-		assertEquals(novoCliente, contaCorrente.getIdCliente());
-		verify(contaCorrenteRepository).save(contaCorrente);
-	}
-
-	@Test
-	void testAtualizarAgenciaContaCorrente() {
-		Agencia novaAgencia = new Agencia();
-		novaAgencia.setIdAgencia(2);
-		novaAgencia.setNomeAgencia("Nova Agencia");
-
-		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(contaCorrente));
-
-		contaCorrenteService.atualizarAgenciaContaCorrente(contaCorrente.getIdContaCorrente(), novaAgencia);
-
-		assertEquals(novaAgencia, contaCorrente.getIdAgencia());
-		verify(contaCorrenteRepository).save(contaCorrente);
-	}
-
-	@Test
-	void testAtualizarNumeroContaCorrenteNotFound() {
-		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.empty());
-
-		assertThrows(ContaCorrenteNaoEncontradaException.class, () -> {
-			contaCorrenteService.atualizarNumeroContaCorrente(1, "67890");
-		});
-	}
-
-	@Test
-	void testDeletarContaCorrentePorId() {
-		doNothing().when(contaCorrenteRepository).deleteById(1);
-
-		String result = contaCorrenteService.deletarContaCorrentePorId(1);
-
-		assertEquals("Cliente de id 1 deletada com sucesso", result);
-		verify(contaCorrenteRepository, times(1)).deleteById(1);
-	} */
 
 	@Test
 	void testDepositar() {
