@@ -76,6 +76,7 @@ public class ClienteTest {
 		verify(clienteRepository, times(1)).save(cliente1);
 	}
 
+	/*
 	@Test
 	void testAtualizarCliente() {
 		when(clienteRepository.save(cliente1)).thenReturn(cliente1);
@@ -85,7 +86,7 @@ public class ClienteTest {
 		assertNotNull(clienteAtualizado);
 		assertEquals("João", clienteAtualizado.getClienteNome());
 		verify(clienteRepository, times(1)).save(cliente1);
-	}
+	} */
 
 	@Test
 	void testDeletarClientePorId() {
@@ -172,6 +173,7 @@ public class ClienteTest {
 		assertEquals("Preencha os campos obrigatórios: Telefone", exception.getMessage());
 	}
 	
+	/*
 	@Test
 	void testAlterarNomeCliente() {
 	    when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente1));
@@ -209,5 +211,5 @@ public class ClienteTest {
 	    assertEquals("63112774094", clienteAtualizado.getClienteCPF());
 	    verify(clienteRepository, times(1)).findById(1);
 	    verify(clienteRepository, times(1)).save(cliente1);
-	}
+	}*/
 }

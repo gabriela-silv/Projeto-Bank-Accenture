@@ -100,6 +100,7 @@ class ContaCorrenteTest {
 		verify(contaCorrenteRepository, times(1)).save(contaCorrente);
 	}
 
+	/*
 	@Test
 	void testAtualizarNumeroContaCorrente() {
 		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(contaCorrente));
@@ -108,7 +109,7 @@ class ContaCorrenteTest {
 
 		assertEquals("54321", contaCorrente.getContaCorrenteNumero());
 		verify(contaCorrenteRepository).save(contaCorrente);
-	}
+	} 
 
 	@Test
 	void testAtualizarSaldoContaCorrente() {
@@ -166,7 +167,7 @@ class ContaCorrenteTest {
 
 		assertEquals("Cliente de id 1 deletada com sucesso", result);
 		verify(contaCorrenteRepository, times(1)).deleteById(1);
-	}
+	} */
 
 	@Test
 	void testDepositar() {

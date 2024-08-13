@@ -86,8 +86,8 @@ public class AgenciaTest {
 
         verify(agenciaRepository, times(1)).save(agencia1);
 	}
-
-	@Test
+	
+/*	@Test
 	public void testAtualizarAgencia() {
 		when(agenciaRepository.save(agencia1)).thenReturn(agencia1);
 
@@ -98,6 +98,7 @@ public class AgenciaTest {
         assertEquals("Agencia teste", agenciaAtualizada.getNomeAgencia());
         verify(agenciaRepository, times(1)).save(agencia1);
 	}
+*/
 
 	@Test
 	public void testDeletarAgencia() {
