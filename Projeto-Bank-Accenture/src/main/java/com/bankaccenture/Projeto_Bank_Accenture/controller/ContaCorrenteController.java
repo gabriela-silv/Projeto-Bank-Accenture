@@ -1,5 +1,6 @@
 package com.bankaccenture.Projeto_Bank_Accenture.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,32 +24,32 @@ public class ContaCorrenteController {
 	ContaCorrenteService contaCorrenteService;
 
 	@GetMapping("/conta-corrente")
-	public ResponseEntity<List<ContaCorrente>> listarContaCorrentes(){
+	public ResponseEntity<List<ContaCorrente>> listarContaCorrentes() {
 		return ResponseEntity.ok(contaCorrenteService.listarContaCorrentes());
 	}
-	
+
 	@GetMapping("/conta-corrente/{id}")
 	public ResponseEntity<ContaCorrente> listarContaCorrentePorId(@PathVariable("id") int id) {
 		return ResponseEntity.ok(contaCorrenteService.listarContaCorrentePorId(id));
 	}
-	
+
 	@GetMapping("/cliente/{idCliente}")
 	public ResponseEntity<ContaCorrente> getContaCorrenteByCliente(@PathVariable int idCliente) {
 		return ResponseEntity.ok(contaCorrenteService.listarContaCorrentePorCliente(idCliente));
 	}
-	
+
 	@PutMapping("/conta-corrente-atualizar/{id}")
 	public ResponseEntity<Void> atualizarContaCorrente(@RequestBody ContaCorrente cc, @PathVariable("id") int id) {
 		contaCorrenteService.atualizarContaCorrente(cc, id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@PostMapping("/inserir-conta-corrente")
 	public ResponseEntity<ContaCorrente> salvarContaCorrente(@RequestBody ContaCorrente contaCorrente) {
 		contaCorrenteService.cadastrarContaCorrente(contaCorrente);
 		return ResponseEntity.status(HttpStatus.CREATED).body(contaCorrente);
 	}
-	
+
 	@DeleteMapping("/conta-corrente-deletar/{id}")
 	public ResponseEntity<Void> deletarContaCorrentePorId(@PathVariable("id") int id) {
 		ContaCorrente cc = contaCorrenteService.listarContaCorrentePorId(id);
@@ -56,11 +57,31 @@ public class ContaCorrenteController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@PostMapping("/sacar/{idContaCorrente}")
+	public ResponseEntity<String> sacar(@PathVariable int idContaCorrente, @RequestBody BigDecimal valor) {
+		contaCorrenteService.sacar(idContaCorrente, valor);
+		return ResponseEntity.status(HttpStatus.OK).body("Saque realizado com sucesso");
+	}
+
+	@PostMapping("/depositar/{idContaCorrente}")
+	public ResponseEntity<String> depositar(@PathVariable int idContaCorrente, @RequestBody BigDecimal valor) {
+		contaCorrenteService.depositar(idContaCorrente, valor);
+		return ResponseEntity.status(HttpStatus.OK).body("Depósito realizado com sucesso");
+	}
+
+	@PostMapping("/transferir/{idContaCorrenteOrigem}/{idContaCorrenteDestino}")
+	public ResponseEntity<String> transferir(@PathVariable int idContaCorrenteOrigem,
+			@PathVariable int idContaCorrenteDestino, @RequestBody BigDecimal valor) {
+		contaCorrenteService.transferir(idContaCorrenteOrigem, idContaCorrenteDestino, valor);
+		return ResponseEntity.status(HttpStatus.OK).body("Transferência realizada com sucesso");
+	}
+
 	// Codigo abaixo retorna os objetos ou tipos primitivos ao inves de uma resposta
 	// http
+
 	/*
 	 * @GetMapping("/conta-corrente") private List<ContaCorrente>
-	 * listarContaCorrentes(){
+	 * listarContaCorrentes() {
 	 * 
 	 * return contaCorrenteService.listarContaCorrentes(); }
 	 * 
@@ -75,11 +96,10 @@ public class ContaCorrenteController {
 	 * }
 	 * 
 	 * @PutMapping("/conta-corrente-atualizar/{id}") private int
-	 * atualizarContaCorrente(@RequestBody ContaCorrente cc,@PathVariable("id") int
+	 * atualizarContaCorrente(@RequestBody ContaCorrente cc, @PathVariable("id") int
 	 * id) { contaCorrenteService.atualizarContaCorrente(cc, id);
 	 * 
 	 * return cc.getIdContaCorrente(); }
-	 * 
 	 * 
 	 * @PostMapping("/inserir-conta-corrente") private int
 	 * salvarContaCorrente(@RequestBody ContaCorrente contaCorrente) {
@@ -93,7 +113,6 @@ public class ContaCorrenteController {
 	 * contaCorrenteService.listarContaCorrentePorId(id);
 	 * 
 	 * contaCorrenteService.deletarContaCorrentePorId(cc); }
-	 * 
 	 */
 
 }
