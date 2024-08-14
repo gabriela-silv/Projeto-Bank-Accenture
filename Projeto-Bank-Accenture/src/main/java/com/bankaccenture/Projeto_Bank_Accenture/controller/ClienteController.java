@@ -33,6 +33,12 @@ public class ClienteController {
 	    return clienteService.listarClientePorId(id);
 	}
 	
+	@GetMapping("/cliente/{cpf}")
+	private Cliente getClientePorCpf(@PathVariable("cpf") String cpf) 
+	{
+	    return clienteService.listarClientePorCPF(cpf);
+	}
+	
 	//Inserir clientes
 	@PostMapping("/cliente-inserir")
 	private int salvarCliente(@RequestBody Cliente cliente) 
