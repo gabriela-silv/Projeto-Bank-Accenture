@@ -39,12 +39,12 @@ public class ExtratoController {
     }
 
 	
-	@GetMapping("/cliente/{idCliente}/periodo")
+	/*@GetMapping("/cliente/{idCliente}/periodo")
 	public ResponseEntity<List<Extrato>> listarExtratosPorClienteEPeriodo(@PathVariable int idCliente, 
 	                                                      @RequestParam("dataInicio") Date dataInicio, 
 	                                                      @RequestParam("dataFim") Date dataFim) {
 	    return ResponseEntity.ok(extratoService.listarExtratosPorClienteEPeriodo(idCliente, dataInicio, dataFim));
-	}
+	}*/
 	/*
 	@GetMapping("/extrato")
 	private List<Extrato> listarExtrato(){

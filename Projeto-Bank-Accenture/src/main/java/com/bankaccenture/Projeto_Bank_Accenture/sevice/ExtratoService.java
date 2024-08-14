@@ -89,9 +89,9 @@ public class ExtratoService {
     public List<Extrato> listarExtratosPorContaCorrente(int idContaCorrente) {
         return extratoRepository.findByIdContaCorrenteIdContaCorrente(idContaCorrente);
     }
-	
+	/*
 	@Transactional(readOnly = true)
 	public List<Extrato> listarExtratosPorClienteEPeriodo(int idCliente, Date dataInicio, Date dataFim) {
 	    return extratoRepository.findByIdContaCorrenteIdClienteIdClienteAndDataBetween(idCliente, dataInicio, dataFim);
-	}
+	}*/
 }

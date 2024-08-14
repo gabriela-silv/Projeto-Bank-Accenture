@@ -9,7 +9,7 @@ import com.bankaccenture.Projeto_Bank_Accenture.model.Extrato;
 
 public interface ExtratoRepository extends JpaRepository<Extrato,Integer>{
 	List<Extrato> findByIdContaCorrenteIdContaCorrente(int idContaCorrente);
-	List<Extrato> findByIdContaCorrenteIdClienteIdClienteAndDataBetween(int idCliente, Date dataInicio, Date dataFim);
+	//List<Extrato> findByIdContaCorrenteIdClienteIdClienteAndDataBetween(int idCliente, Date dataInicio, Date dataFim);
 
 }
 

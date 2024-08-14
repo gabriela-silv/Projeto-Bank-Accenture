@@ -33,10 +33,10 @@ public class ContaCorrenteController {
 		return ResponseEntity.ok(contaCorrenteService.listarContaCorrentePorId(id));
 	}
 
-	@GetMapping("/cliente/{idCliente}")
+	/*@GetMapping("/cliente/{idCliente}")
 	public ResponseEntity<ContaCorrente> getContaCorrenteByCliente(@PathVariable int idCliente) {
 		return ResponseEntity.ok(contaCorrenteService.listarContaCorrentePorCliente(idCliente));
-	}
+	}*/
 
 	@PutMapping("/conta-corrente-atualizar/{id}")
 	public ResponseEntity<Void> atualizarContaCorrente(@RequestBody ContaCorrente cc, @PathVariable("id") int id) {
