@@ -1,7 +1,7 @@
 A aplicação BANK é uma solução que promove facilidade e segurança para a gestão financeira, 
 tanto pessoal quanto empresarial. Desse modo, ela traz praticidade aos clientes para realizar 
-transações bancárias, bem como auxilia a administração ao proporcionar um maior poder gerencial.
-Sendo assim, segue abaixo o diagrama que descreve os endpoints da aplicação:
+transações bancárias e contribui com a administração do banco ao proporcionar um maior poder gerencial.
+Sendo assim, segue abaixo os endpoints da aplicação:
 
 CLIENTE ------------------------------------------------------------
 
