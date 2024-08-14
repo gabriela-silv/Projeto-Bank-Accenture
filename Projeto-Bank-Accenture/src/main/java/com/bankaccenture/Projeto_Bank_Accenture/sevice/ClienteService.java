@@ -31,6 +31,11 @@ public class ClienteService {
 		Cliente cliente = clienteRepository.findById(id).orElse(null);
 		return cliente;
 	}
+	
+	@Transactional(readOnly = true)
+	public Cliente listarClientePorCPF(String cpf) {
+		return clienteRepository.findByClienteCPF(cpf).orElse(null);
+	}
 
 	@Transactional(readOnly = false)
 	public Cliente cadastrarCliente(Cliente cliente) throws CampoObrigatorioException {

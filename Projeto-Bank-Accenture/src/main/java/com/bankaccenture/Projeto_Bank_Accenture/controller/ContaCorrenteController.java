@@ -32,6 +32,12 @@ public class ContaCorrenteController {
 	    return contaCorrenteService.listarContaCorrentePorId(id);
 	}
 	
+	@GetMapping("/cliente/{idCliente}")
+    private ContaCorrente getContaCorrenteByCliente(@PathVariable 	int idCliente) {
+		return contaCorrenteService.listarContaCorrentePorCliente(idCliente);
+        
+    }
+	
 	@PutMapping("/conta-corrente-atualizar/{id}")
 	private int atualizarContaCorrente(@RequestBody ContaCorrente cc,@PathVariable("id") int id) {
 		contaCorrenteService.atualizarContaCorrente(cc, id);

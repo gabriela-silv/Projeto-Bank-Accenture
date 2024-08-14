@@ -35,8 +35,14 @@ public class ContaCorrenteService {
 
 	@Transactional(readOnly = true)
 	public ContaCorrente listarContaCorrentePorId(int id) {
-		return contaCorrenteRepository.findById(id).orElseThrow(
-				() -> new ContaCorrenteNaoEncontradaException("Conta corrente com ID " + id + " não encontrada."));
+		return contaCorrenteRepository.findById(id).orElseThrow(() -> new ContaCorrenteNaoEncontradaException(id));
+	}
+
+	@Transactional(readOnly = true)
+	public ContaCorrente listarContaCorrentePorCliente(int idCliente) {
+		return contaCorrenteRepository.findByIdCliente(idCliente)
+				.orElseThrow(() -> new ContaCorrenteNaoEncontradaException(
+						"Conta corrente não encontrada para cliente de id: " + idCliente));
 	}
 
 	@Transactional(readOnly = false)
@@ -109,24 +115,22 @@ public class ContaCorrenteService {
 		eventPublisher.publishEvent(new TransacaoEvent(contaCorrenteDestino, valor, TipoOperacao.TRANSFERENCIA));
 
 	}
-	
+
 	@Transactional(readOnly = false)
 	public void recalcularSaldo(int idContaCorrente, List<Extrato> extratos) {
-	    ContaCorrente contaCorrente = listarContaCorrentePorId(idContaCorrente);
-	    BigDecimal saldo = BigDecimal.ZERO;
-	    
-	    for (Extrato extrato : extratos) {
-	        if (extrato.getValor().compareTo(BigDecimal.ZERO) > 0) {
-	            saldo = saldo.add(extrato.getValor());
-	        } else {
-	            saldo = saldo.subtract(extrato.getValor());
-	        }
-	    }
-	    
-	    contaCorrente.setContaCorrenteSaldo(saldo);
-	    contaCorrenteRepository.save(contaCorrente);
-	}
-	
+		ContaCorrente contaCorrente = listarContaCorrentePorId(idContaCorrente);
+		BigDecimal saldo = BigDecimal.ZERO;
 
+		for (Extrato extrato : extratos) {
+			if (extrato.getValor().compareTo(BigDecimal.ZERO) > 0) {
+				saldo = saldo.add(extrato.getValor());
+			} else {
+				saldo = saldo.subtract(extrato.getValor());
+			}
+		}
+
+		contaCorrente.setContaCorrenteSaldo(saldo);
+		contaCorrenteRepository.save(contaCorrente);
+	}
 
 }
