@@ -38,12 +38,12 @@ public class ContaCorrenteService {
 		return contaCorrenteRepository.findById(id).orElseThrow(() -> new ContaCorrenteNaoEncontradaException(id));
 	}
 
-	/*@Transactional(readOnly = true)
+	@Transactional(readOnly = true)
 	public ContaCorrente listarContaCorrentePorCliente(int idCliente) {
 		return contaCorrenteRepository.findByIdCliente(idCliente)
 				.orElseThrow(() -> new ContaCorrenteNaoEncontradaException(
 						"Conta corrente não encontrada para cliente de id: " + idCliente));
-	}*/
+	}
 
 	@Transactional(readOnly = false)
 	public ContaCorrente cadastrarContaCorrente(ContaCorrente contaCorrente) {
