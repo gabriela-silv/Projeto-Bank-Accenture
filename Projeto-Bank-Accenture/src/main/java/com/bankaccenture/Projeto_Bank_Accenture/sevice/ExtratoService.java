@@ -34,7 +34,12 @@ public class ExtratoService {
 	}
 	
 	@Transactional(readOnly = false)
-	public Extrato cadastrarExtrato(Extrato extrato){		
+	public Extrato cadastrarExtrato(Extrato extrato){
+        extrato.setDataHoraMovimento(LocalDateTime.now());
+        extrato.setOperacao(extrato.getOperacao());
+        extrato.setValor(extrato.getValor());
+        extrato.setIdContaCorrente(extrato.getIdContaCorrente());
+		
 		return extratoRepository.save(extrato);
 	}
 	

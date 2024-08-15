@@ -33,10 +33,10 @@ public class ClienteController {
 			return ResponseEntity.ok(clienteService.listarClientePorId(id));
 		}
 		
-		@GetMapping("/cliente/{cpf}")
-		public ResponseEntity<Cliente> getClientePorCpf(@PathVariable("cpf") String cpf) {
-			return ResponseEntity.ok(clienteService.listarClientePorCPF(cpf));
-		}
+		//@GetMapping("/cliente/{cpf}")
+		//public ResponseEntity<Cliente> getClientePorCpf(@PathVariable("cpf") String cpf) {
+		//	return ResponseEntity.ok(clienteService.listarClientePorCPF(cpf));
+		//}
 		
 		//Inserir clientes
 		@PostMapping("/cliente-inserir")
