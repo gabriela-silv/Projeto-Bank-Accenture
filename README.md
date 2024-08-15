@@ -62,7 +62,7 @@ src/
 - **Spring Boot**: Framework para criar aplicações Java.
 - **MySQL**: Banco de dados relacional utilizado.
 - **Lombok**: Biblioteca para reduzir a estrutura de código.
-- * Spring Data JPA
+- **Spring Data JPA**: Framework para persistência de dados.
 - **Swagger**: Ferramenta para documentação da API.
 - **JUnit**: Framework para testes unitários.
 
@@ -132,6 +132,23 @@ A API do projeto é documentada utilizando o Swagger. Para acessar a documentaç
 	+ `PUT /clientes/{id}`: atualiza um cliente
 	+ `DELETE /clientes/{id}`: exclui um cliente
 * **Contas Bancárias**:
+	+ `GET /contas`: lista todas as contas bancárias
+	+ `POST /contas`: cria uma nova conta bancária
+	+ `GET /contas/{id}`: busca uma conta bancária por ID
+	+ `PUT /contas/{id}`: atualiza uma conta bancária
+	+ `DELETE /contas/{id}`: exclui uma conta bancária
+* **Agências**:
+	+ `GET /agencias`: lista todas as agências
+	+ `POST /agencias`: cria uma nova agência
+	+ `GET /agencias/{id}`: busca uma agência por ID
+	+ `PUT /agencias/{id}`: atualiza uma agência
+	+ `DELETE /agencias/{id}`: exclui uma agência
+* **Extratos**:
+	+ `GET /extratos`: lista todos os extratos
+	+ `POST /extratos`: cria um novo extrato
+	+ `GET /extratos/{id}`: busca um extrato por ID
+	+ `PUT /extratos/{id}`: atualiza um extrato
+	+ `DELETE /extratos/{id}`: exclui um extrato
 
 
 **Autores**
