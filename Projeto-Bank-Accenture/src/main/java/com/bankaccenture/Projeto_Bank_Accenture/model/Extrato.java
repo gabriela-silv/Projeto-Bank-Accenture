@@ -34,12 +34,12 @@ public class Extrato implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idExtrato;
 
-	@NotBlank(message = "Informe a data e a hora da operação.")
+	//@NotBlank(message = "Informe a data e a hora da operação.")
 	@Column(name = "horarioMovimentacao", nullable = false)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss", timezone = "GMT-3")
 	private LocalDateTime dataHoraMovimento;
 
-	@NotBlank(message = "Informe o tipo da operação.")
+	//@NotBlank(message = "Informe o tipo da operação.")
 	@Column(name = "tipoOperacao", nullable = false)
 	private TipoOperacao operacao;
 
@@ -47,7 +47,7 @@ public class Extrato implements Serializable {
 	@JoinColumn(name = "idContaCorrente", nullable = false)
 	private ContaCorrente idContaCorrente;
 
-	@NotBlank(message = "Informe o valor da transação.")
+	//@NotBlank(message = "Informe o valor da transação.")
 	@Column(name = "valor", nullable = false)
 	private BigDecimal valor;
 

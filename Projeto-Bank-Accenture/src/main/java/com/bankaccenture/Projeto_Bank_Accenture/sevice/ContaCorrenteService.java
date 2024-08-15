@@ -26,7 +26,7 @@ public class ContaCorrenteService {
 	@Autowired
 	private ApplicationEventPublisher eventPublisher;
 
-	private validacaoDeDados validacaoDeDados;
+	private validacaoDeDados validacaoDeDados = new validacaoDeDados();
 
 	@Transactional(readOnly = true)
 	public List<ContaCorrente> listarContaCorrentes() {
