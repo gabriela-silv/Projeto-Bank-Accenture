@@ -24,65 +24,66 @@ import static org.mockito.Mockito.*;
 
 public class ExtratoTest {
 
-    @Mock
-    private ExtratoRepository extratoRepository;
+	@Mock
+	private ExtratoRepository extratoRepository;
 
-    @InjectMocks
-    private ExtratoService extratoService;
+	@InjectMocks
+	private ExtratoService extratoService;
 
-    private ContaCorrente contaCorrente;
+	private ContaCorrente contaCorrente;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        contaCorrente = new ContaCorrente();
-        contaCorrente.setIdContaCorrente(1);
-        contaCorrente.setContaCorrenteSaldo(BigDecimal.valueOf(1000));
-    }
+	@BeforeEach
+	public void setUp() {
+		MockitoAnnotations.openMocks(this);
+		contaCorrente = new ContaCorrente();
+		contaCorrente.setIdContaCorrente(1);
+		contaCorrente.setContaCorrenteSaldo(BigDecimal.valueOf(1000));
+	}
 
-    @Test
-    public void testHandleTransacaoEvent() {
-        BigDecimal valorOperacao = BigDecimal.valueOf(200);
-        TransacaoEvent event = new TransacaoEvent(contaCorrente, valorOperacao, TipoOperacao.DEPOSITO);
+	@Test
+	public void testHandleTransacaoEvent() {
+		BigDecimal valorOperacao = BigDecimal.valueOf(200);
+		TransacaoEvent event = new TransacaoEvent(contaCorrente, valorOperacao, TipoOperacao.DEPOSITO);
 
-        extratoService.handleTransacaoEvent(event);
+		extratoService.handleTransacaoEvent(event);
 
-        ArgumentCaptor<Extrato> extratoCaptor = ArgumentCaptor.forClass(Extrato.class);
-        verify(extratoRepository).save(extratoCaptor.capture());
+		ArgumentCaptor<Extrato> extratoCaptor = ArgumentCaptor.forClass(Extrato.class);
+		verify(extratoRepository).save(extratoCaptor.capture());
 
-        Extrato capturedExtrato = extratoCaptor.getValue();
-        assertEquals(contaCorrente, capturedExtrato.getIdContaCorrente());
-        assertEquals(valorOperacao, capturedExtrato.getValor());
-        assertEquals(TipoOperacao.DEPOSITO, capturedExtrato.getOperacao());
-        assertEquals(LocalDateTime.now().getDayOfMonth(), capturedExtrato.getDataHoraMovimento().getDayOfMonth());
-    }
-    
-    @Test
-    public void testListarExtratosPorContaCorrente() {
-        Extrato extrato1 = new Extrato();
-        extrato1.setIdExtrato(1);
-        extrato1.setIdContaCorrente(contaCorrente);
-        extrato1.setValor(BigDecimal.valueOf(200));
-        extrato1.setOperacao(TipoOperacao.DEPOSITO);
-        extrato1.setDataHoraMovimento(LocalDateTime.now());
+		Extrato capturedExtrato = extratoCaptor.getValue();
+		assertEquals(contaCorrente, capturedExtrato.getIdContaCorrente());
+		assertEquals(valorOperacao, capturedExtrato.getValor());
+		assertEquals(TipoOperacao.DEPOSITO, capturedExtrato.getOperacao());
+		assertEquals(LocalDateTime.now().getDayOfMonth(), capturedExtrato.getDataHoraMovimento().getDayOfMonth());
+	}
 
-        Extrato extrato2 = new Extrato();
-        extrato2.setIdExtrato(2);
-        extrato2.setIdContaCorrente(contaCorrente);
-        extrato2.setValor(BigDecimal.valueOf(300));
-        extrato1.setOperacao(TipoOperacao.SAQUE);
-        extrato2.setDataHoraMovimento(LocalDateTime.now());
+	@Test
+	public void testListarExtratosPorContaCorrente() {
+		Extrato extrato1 = new Extrato();
+		extrato1.setIdExtrato(1);
+		extrato1.setIdContaCorrente(contaCorrente);
+		extrato1.setValor(BigDecimal.valueOf(200));
+		extrato1.setOperacao(TipoOperacao.DEPOSITO);
+		extrato1.setDataHoraMovimento(LocalDateTime.now());
 
-        List<Extrato> extratos = Arrays.asList(extrato1, extrato2);
+		Extrato extrato2 = new Extrato();
+		extrato2.setIdExtrato(2);
+		extrato2.setIdContaCorrente(contaCorrente);
+		extrato2.setValor(BigDecimal.valueOf(300));
+		extrato1.setOperacao(TipoOperacao.SAQUE);
+		extrato2.setDataHoraMovimento(LocalDateTime.now());
 
-        when(extratoRepository.findByIdContaCorrenteIdContaCorrente(contaCorrente.getIdContaCorrente())).thenReturn(extratos);
+		List<Extrato> extratos = Arrays.asList(extrato1, extrato2);
 
-        List<Extrato> result = extratoService.listarExtratosPorContaCorrente(contaCorrente.getIdContaCorrente());
+		when(extratoRepository.findByIdContaCorrenteIdContaCorrente(contaCorrente.getIdContaCorrente()))
+				.thenReturn(extratos);
 
-        assertEquals(2, result.size());
-        assertEquals(extrato1, result.get(0));
-        assertEquals(extrato2, result.get(1));
+		List<Extrato> result = extratoService.listarExtratosPorContaCorrente(contaCorrente.getIdContaCorrente());
 
-        verify(extratoRepository, times(1)).findByIdContaCorrenteIdContaCorrente(contaCorrente.getIdContaCorrente());
-    }
+		assertEquals(2, result.size());
+		assertEquals(extrato1, result.get(0));
+		assertEquals(extrato2, result.get(1));
+
+		verify(extratoRepository, times(1)).findByIdContaCorrenteIdContaCorrente(contaCorrente.getIdContaCorrente());
+	}
 }

@@ -21,17 +21,17 @@ public class AgenciaController {
 
 	@Autowired
 	AgenciaService agenciaService;
-	
+
 	@GetMapping("/agencias")
 	public ResponseEntity<List<Agencia>> listarAgencias() {
 		return ResponseEntity.ok(agenciaService.listarAgencias());
 	}
-	
+
 	@GetMapping("/agencia/{id}")
 	public ResponseEntity<Agencia> getAgenciaPorId(@PathVariable("id") int id) {
 		return ResponseEntity.ok(agenciaService.listarAgenciaPorId(id));
 	}
-	
+
 	@PostMapping("/agencia-inserir")
 	public ResponseEntity<Agencia> salvarAgencia(@RequestBody Agencia agencia) {
 		agenciaService.cadastrarAgencia(agencia);
@@ -50,40 +50,4 @@ public class AgenciaController {
 		agenciaService.deletarAgenciaPorId(agencia);
 		return ResponseEntity.noContent().build();
 	}
-	
-	/*
-	@GetMapping("/agencias")
-	private List<Agencia> listarAgencias() {
-		return agenciaService.listarAgencias();
-	}
-	
-	@GetMapping("/agencia/{id}")
-	private Agencia getAgenciaPorId(@PathVariable("id") int id) 
-	{
-	    return agenciaService.listarAgenciaPorId(id);
-	}
-	
-	@PostMapping("/agencia-inserir")
-	private int salvarAgencia(@RequestBody Agencia agencia) {
-
-		agenciaService.cadastrarAgencia(agencia);
-
-		return agencia.getIdAgencia();
-	}
-
-
-	@PutMapping("/agencia-atualizar/{id}")
-	private int atualizarAgencia(@RequestBody Agencia agencia,@PathVariable("id") int id) {
-		agenciaService.atualizarAgencia(agencia, id);
-
-		return agencia.getIdAgencia();
-	}
-
-	@DeleteMapping("/agencia/{id}")
-	private void deletarAgenciaPorId(@PathVariable("id") int id) {
-		Agencia agencia = agenciaService.listarAgenciaPorId(id);
-
-		agenciaService.deletarAgenciaPorId(agencia);
-	}
-*/
 }

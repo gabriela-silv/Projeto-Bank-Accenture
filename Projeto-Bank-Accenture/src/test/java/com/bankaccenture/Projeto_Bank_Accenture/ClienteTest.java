@@ -78,12 +78,12 @@ public class ClienteTest {
 
 	@Test
 	void testAtualizarCliente() {
-    	when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente1));
-    	clienteService.atualizarCliente(cliente2, cliente1.getIdCliente());
+		when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente1));
+		clienteService.atualizarCliente(cliente2, cliente1.getIdCliente());
 
 		assertEquals(cliente1.getClienteNome(), cliente2.getClienteNome());
 		verify(clienteRepository).save(cliente1);
-	} 
+	}
 
 	@Test
 	void testDeletarClientePorId() {

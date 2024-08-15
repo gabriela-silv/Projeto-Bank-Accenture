@@ -73,70 +73,70 @@ public class AgenciaTest {
 	public void testListarAgenciaPorId() {
 		when(agenciaRepository.findById(1)).thenReturn(Optional.of(agencia1));
 
-        Agencia agencia = agenciaService.listarAgenciaPorId(1);
+		Agencia agencia = agenciaService.listarAgenciaPorId(1);
 
-        assertNotNull(agencia);
-        assertEquals("Agencia teste", agencia.getNomeAgencia());
-        verify(agenciaRepository, times(1)).findById(1);
+		assertNotNull(agencia);
+		assertEquals("Agencia teste", agencia.getNomeAgencia());
+		verify(agenciaRepository, times(1)).findById(1);
 	}
 
 	@Test
 	public void testCadastrarAgencia() {
 		agenciaService.cadastrarAgencia(agencia1);
 
-        verify(agenciaRepository, times(1)).save(agencia1);
+		verify(agenciaRepository, times(1)).save(agencia1);
 	}
-	
-    @Test
-    public void testAtualizarAgencia() {
-    	when(agenciaRepository.findById(1)).thenReturn(Optional.of(agencia1));
-    	agenciaService.atualizarAgencia(agencia2, agencia1.getIdAgencia());
+
+	@Test
+	public void testAtualizarAgencia() {
+		when(agenciaRepository.findById(1)).thenReturn(Optional.of(agencia1));
+		agenciaService.atualizarAgencia(agencia2, agencia1.getIdAgencia());
 
 		assertEquals(agencia1.getNomeAgencia(), agencia2.getNomeAgencia());
 		verify(agenciaRepository).save(agencia1);
-    }
-
+	}
 
 	@Test
 	public void testDeletarAgencia() {
 		doNothing().when(agenciaRepository).deleteById(agencia1.getIdAgencia());
 
-        String result = agenciaService.deletarAgenciaPorId(agencia1);
+		String result = agenciaService.deletarAgenciaPorId(agencia1);
 
-        assertEquals("Agencia de id 1 deletada com sucesso", result);
-        verify(agenciaRepository, times(1)).deleteById(agencia1.getIdAgencia());
+		assertEquals("Agencia de id 1 deletada com sucesso", result);
+		verify(agenciaRepository, times(1)).deleteById(agencia1.getIdAgencia());
 	}
 
 	@Test
 	public void testNomeObrigatorio() {
-	
+
 		Agencia agencia = new Agencia();
 		agencia.setIdAgencia(3);
 		agencia.setNomeAgencia("");
 		agencia.setEndereco("Rua na rua");
 		agencia.setTelefone("11223344554");
 
-        Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
-            agenciaService.cadastrarAgencia(agencia);
-        });
+		Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
+			agenciaService.cadastrarAgencia(agencia);
+		});
 
-        assertEquals("Preencha os campos obrigatórios: Nome", exception.getMessage());
-		
+		assertEquals("Preencha os campos obrigatórios: Nome", exception.getMessage());
+
 	}
+
 	@Test
 	public void testNomeNulo() {
-	
+
 		Agencia agencia = new Agencia();
 		agencia.setIdAgencia(3);
 		agencia.setEndereco("Rua na rua");
 		agencia.setTelefone("11223344554");
 
-        Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
-            agenciaService.cadastrarAgencia(agencia);
-        });
+		Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
+			agenciaService.cadastrarAgencia(agencia);
+		});
 
-        assertEquals("Preencha os campos obrigatórios: Nome", exception.getMessage());
-		
+		assertEquals("Preencha os campos obrigatórios: Nome", exception.getMessage());
+
 	}
 
 	@Test
@@ -147,11 +147,11 @@ public class AgenciaTest {
 		agencia.setEndereco("");
 		agencia.setTelefone("11223344554");
 
-        Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
-            agenciaService.cadastrarAgencia(agencia);
-        });
+		Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
+			agenciaService.cadastrarAgencia(agencia);
+		});
 
-        assertEquals("Preencha os campos obrigatórios: Endereço", exception.getMessage());
+		assertEquals("Preencha os campos obrigatórios: Endereço", exception.getMessage());
 	}
 
 	@Test
@@ -162,11 +162,11 @@ public class AgenciaTest {
 		agencia.setEndereco("Endereço da agencia");
 		agencia.setTelefone("");
 
-        Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
-            agenciaService.cadastrarAgencia(agencia);
-        });
+		Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
+			agenciaService.cadastrarAgencia(agencia);
+		});
 
-        assertEquals("Preencha os campos obrigatórios: Telefone", exception.getMessage());
+		assertEquals("Preencha os campos obrigatórios: Telefone", exception.getMessage());
 	}
 
 }

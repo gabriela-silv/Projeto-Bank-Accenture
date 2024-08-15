@@ -36,9 +36,9 @@ class ContaCorrenteTest {
 
 	@Mock
 	private ContaCorrenteRepository contaCorrenteRepository;
-	
+
 	@Mock
-    private ApplicationEventPublisher eventPublisher;
+	private ApplicationEventPublisher eventPublisher;
 
 	@InjectMocks
 	private ContaCorrenteService contaCorrenteService;
@@ -107,7 +107,6 @@ class ContaCorrenteTest {
 		verify(contaCorrenteRepository, times(1)).save(contaCorrente);
 	}
 
-
 	@Test
 	void testAtualizarContaCorrente() {
 		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(contaCorrente));
@@ -116,28 +115,27 @@ class ContaCorrenteTest {
 		assertEquals(contaCorrente.getContaCorrenteNumero(), contaDestino.getContaCorrenteNumero());
 		verify(contaCorrenteRepository).save(contaCorrente);
 
-	} 
+	}
 
 	@Test
 	void testDepositar() {
-		
+
 		BigDecimal valorDeposito = BigDecimal.valueOf(500);
 		when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(contaCorrente));
 
 		contaCorrenteService.depositar(contaCorrente.getIdContaCorrente(), valorDeposito);
-		
+
 		assertEquals(BigDecimal.valueOf(1500), contaCorrente.getContaCorrenteSaldo());
 		verify(contaCorrenteRepository, times(1)).save(any(ContaCorrente.class));
-		verify(eventPublisher, times(1)).publishEvent(any(TransacaoEvent.class)); 
-		
+		verify(eventPublisher, times(1)).publishEvent(any(TransacaoEvent.class));
+
 		ArgumentCaptor<TransacaoEvent> eventCaptor = ArgumentCaptor.forClass(TransacaoEvent.class);
-        verify(eventPublisher).publishEvent(eventCaptor.capture());
-        TransacaoEvent capturedEvent = eventCaptor.getValue();
-        assertEquals(contaCorrente, capturedEvent.getContaCorrente());
-        assertEquals(valorDeposito, capturedEvent.getValor());
-        assertEquals(TipoOperacao.DEPOSITO, capturedEvent.getTipoOperacao());
-		
-		
+		verify(eventPublisher).publishEvent(eventCaptor.capture());
+		TransacaoEvent capturedEvent = eventCaptor.getValue();
+		assertEquals(contaCorrente, capturedEvent.getContaCorrente());
+		assertEquals(valorDeposito, capturedEvent.getValor());
+		assertEquals(TipoOperacao.DEPOSITO, capturedEvent.getTipoOperacao());
+
 	}
 
 	@Test
@@ -201,59 +199,57 @@ class ContaCorrenteTest {
 					BigDecimal.valueOf(500));
 		});
 	}
-	
+
 	@Test
 	void testValidaCamposAgenciaNula() {
-	    ContaCorrente contaCorrente = new ContaCorrente();
-	    contaCorrente.setContaCorrenteNumero("123456");
-	    contaCorrente.setIdCliente(cliente);
+		ContaCorrente contaCorrente = new ContaCorrente();
+		contaCorrente.setContaCorrenteNumero("123456");
+		contaCorrente.setIdCliente(cliente);
 
-	    Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
-	        contaCorrenteService.cadastrarContaCorrente(contaCorrente);
-	    });
+		Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
+			contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+		});
 
-	    assertEquals("Preencha os campos obrigatórios: Agencia", exception.getMessage());
+		assertEquals("Preencha os campos obrigatórios: Agencia", exception.getMessage());
 	}
 
 	@Test
 	void testValidaCamposContaCorrenteNumeroVazio() {
-	    ContaCorrente contaCorrente = new ContaCorrente();
-	    contaCorrente.setIdAgencia(agencia);
-	    contaCorrente.setContaCorrenteNumero("");
-	    contaCorrente.setIdCliente(cliente);
+		ContaCorrente contaCorrente = new ContaCorrente();
+		contaCorrente.setIdAgencia(agencia);
+		contaCorrente.setContaCorrenteNumero("");
+		contaCorrente.setIdCliente(cliente);
 
-	    Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
-	        contaCorrenteService.cadastrarContaCorrente(contaCorrente);
-	    });
+		Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
+			contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+		});
 
-	    assertEquals("Preencha os campos obrigatórios: Numero da Conta Corrente", exception.getMessage());
+		assertEquals("Preencha os campos obrigatórios: Numero da Conta Corrente", exception.getMessage());
 	}
 
 	@Test
 	void testValidaCamposIDClienteNulo() {
-	    ContaCorrente contaCorrente = new ContaCorrente();
-	    contaCorrente.setIdAgencia(agencia);
-	    contaCorrente.setContaCorrenteNumero("123456");
+		ContaCorrente contaCorrente = new ContaCorrente();
+		contaCorrente.setIdAgencia(agencia);
+		contaCorrente.setContaCorrenteNumero("123456");
 
-	    Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
-	        contaCorrenteService.cadastrarContaCorrente(contaCorrente);
-	    });
+		Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
+			contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+		});
 
-	    assertEquals("Preencha os campos obrigatórios: Cliente", exception.getMessage());
+		assertEquals("Preencha os campos obrigatórios: Cliente", exception.getMessage());
 	}
 
 	@Test
 	void testValidaCamposTodosCamposVazios() {
-	    ContaCorrente contaCorrente = new ContaCorrente();
+		ContaCorrente contaCorrente = new ContaCorrente();
 
-	    Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
-	        contaCorrenteService.cadastrarContaCorrente(contaCorrente);
-	    });
+		Exception exception = assertThrows(CampoObrigatorioException.class, () -> {
+			contaCorrenteService.cadastrarContaCorrente(contaCorrente);
+		});
 
-	    assertEquals("Preencha os campos obrigatórios: Numero da Conta Corrente Agencia Cliente", exception.getMessage());
+		assertEquals("Preencha os campos obrigatórios: Numero da Conta Corrente Agencia Cliente",
+				exception.getMessage());
 	}
-	
-	
-	
-	
+
 }
