@@ -1,0 +1,71 @@
+.borda {
+    background-color: #f2f2f2;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    align-items: center;
+    background-color: #ffffff;
+    width: 80vw;
+    height: 50vw;
+    overflow-y: scroll;
+}
+
+.tabela {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    width: 70vw;
+}
+
+.cabecalho {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cadastro {
+    text-align: center;
+}
+
+mat-form-field {
+    margin: 1rem;
+    width: 20vw;
+}
+
+
+
+table {
+    background-color: #ffffff;
+}
+
+mat-paginator {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+td,
+th {
+    color: #000000;
+}
+
+.mat-drawer-container{
+    width: 12vw;
+}
+
+.botao-lateral{
+    width: 100%;
+    border-radius: 0;
+}
+
+.mat-icon{
+    cursor: pointer;
+}

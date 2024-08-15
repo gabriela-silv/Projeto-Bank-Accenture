@@ -1,0 +1,39 @@
+.cadastro {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 5rem;
+    border-radius: 1rem;
+}
+
+.botoes {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.botao-inserir {
+    width: 8vw;
+    font-size: 1rem;
+    margin-left: 1rem;
+}
+
+.campo {
+    margin-left: 1rem;
+    width: 20vw;
+}
+
+.borda {
+    background-color: #f2f2f2;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 49vw;
+}
+
+::ng-deep input {
+    color: #000000 !important;
+}

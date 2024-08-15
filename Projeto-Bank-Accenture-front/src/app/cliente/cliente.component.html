@@ -1,0 +1,133 @@
+<div class="borda">
+    <mat-drawer-container class="example-container">
+        <mat-drawer-content>
+            <div class="background-avatar">
+                <div class="avatar">
+                    <svg width="3vw" height="3vw" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="m 8 1 c -1.65625 0 -3 1.34375 -3 3 s 1.34375 3 3 3 s 3 -1.34375 3 -3 s -1.34375 -3 -3 -3 z m -1.5 7 c -2.492188 0 -4.5 2.007812 -4.5 4.5 v 0.5 c 0 1.109375 0.890625 2 2 2 h 8 c 1.109375 0 2 -0.890625 2 -2 v -0.5 c 0 -2.492188 -2.007812 -4.5 -4.5 -4.5 z m 0 0"
+                            fill="#2e3436" />
+                    </svg>
+                </div>
+                <br>
+                <br>
+                <mat-label class="nome-usuario"><b>Olá, {{cliente.clienteNome}}</b></mat-label>
+            </div>
+            <br>
+            <br>
+            <button class="botao-drawer" mat-raised-button>
+                Cartão de crédito
+            </button>
+            <br>
+            <br>
+            <button class="botao-drawer" mat-raised-button>
+                Resumo de faturas
+            </button>
+            <br>
+            <br>
+            <button class="botao-drawer" mat-raised-button>
+                Meus Cartões
+            </button>
+            <br>
+            <br>
+            <button class="botao-drawer" (click)="redirecionarAdmin()" mat-raised-button>
+                ADMIN-ROTA
+            </button>
+            <br>
+            <br>
+
+        </mat-drawer-content>
+    </mat-drawer-container>
+    <div class="container">
+        <div class="conta">
+            <mat-label><b>Conta {{cliente.conta}}</b></mat-label>
+            <br>
+            <mat-label class="saldo" *ngIf="verSaldo"><b>Saldo disponível {{cliente.saldo}}</b>
+                <svg class="olho" (click)="trocarVisualizacao()" *ngIf="verSaldo" fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" width="3vw" height="3vw" viewBox="0 0 442.04 442.04"
+                    xml:space="preserve">
+                    <g>
+                        <g>
+                            <path
+                                d="M221.02,341.304c-49.708,0-103.206-19.44-154.71-56.22C27.808,257.59,4.044,230.351,3.051,229.203
+			c-4.068-4.697-4.068-11.669,0-16.367c0.993-1.146,24.756-28.387,63.259-55.881c51.505-36.777,105.003-56.219,154.71-56.219
+			c49.708,0,103.207,19.441,154.71,56.219c38.502,27.494,62.266,54.734,63.259,55.881c4.068,4.697,4.068,11.669,0,16.367
+			c-0.993,1.146-24.756,28.387-63.259,55.881C324.227,321.863,270.729,341.304,221.02,341.304z M29.638,221.021
+			c9.61,9.799,27.747,27.03,51.694,44.071c32.83,23.361,83.714,51.212,139.688,51.212s106.859-27.851,139.688-51.212
+			c23.944-17.038,42.082-34.271,51.694-44.071c-9.609-9.799-27.747-27.03-51.694-44.071
+			c-32.829-23.362-83.714-51.212-139.688-51.212s-106.858,27.85-139.688,51.212C57.388,193.988,39.25,211.219,29.638,221.021z" />
+                        </g>
+                        <g>
+                            <path d="M221.02,298.521c-42.734,0-77.5-34.767-77.5-77.5c0-42.733,34.766-77.5,77.5-77.5c18.794,0,36.924,6.814,51.048,19.188
+			c5.193,4.549,5.715,12.446,1.166,17.639c-4.549,5.193-12.447,5.714-17.639,1.166c-9.564-8.379-21.844-12.993-34.576-12.993
+			c-28.949,0-52.5,23.552-52.5,52.5s23.551,52.5,52.5,52.5c28.95,0,52.5-23.552,52.5-52.5c0-6.903,5.597-12.5,12.5-12.5
+			s12.5,5.597,12.5,12.5C298.521,263.754,263.754,298.521,221.02,298.521z" />
+                        </g>
+                        <g>
+                            <path
+                                d="M221.02,246.021c-13.785,0-25-11.215-25-25s11.215-25,25-25c13.786,0,25,11.215,25,25S234.806,246.021,221.02,246.021z" />
+                        </g>
+                    </g>
+                </svg>
+            </mat-label>
+            <mat-label class="saldo" *ngIf="!verSaldo"><b>Saldo disponível ******</b>
+                <svg class="olho" (click)="trocarVisualizacao()" *ngIf="!verSaldo" width="3vw" height="3vw" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.0006 12.0007C19.2536 15.5766 15.8779 18 12 18M12 18C8.12204 18 4.7463 15.5766 2.99977 12.0002M12 18L12 21M19.4218 14.4218L21.4999 16.5M16.2304 16.9687L17.5 19.5M4.57812 14.4218L2.5 16.5M7.76953 16.9687L6.5 19.5" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+            </mat-label>
+            <br>
+        </div>
+        <div class="botoes">
+            <button class="botao-lateral" mat-raised-button (click)="redirecionar('depositar')">
+                Depositar
+            </button>
+            <br>
+            <br>
+            <button class="botao-lateral" mat-raised-button (click)="redirecionar('transferir')">
+                Transferir
+            </button>
+            <br>
+            <br>
+            <button class="botao-lateral" mat-raised-button (click)="redirecionar('sacar')">
+                Sacar
+            </button>
+        </div>
+        <div class="tabela">
+            <br>
+            <mat-label><b>Lista de transações</b></mat-label>
+            <br>
+            <table mat-table [dataSource]="dataSource">
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="idExtrato">
+                    <th mat-header-cell *matHeaderCellDef> ID da transação </th>
+                    <td mat-cell *matCellDef="let element"> {{element.idExtrato}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="operacao">
+                    <th mat-header-cell *matHeaderCellDef> Tipo de operação </th>
+                    <td mat-cell *matCellDef="let element"> {{element.operacao}} </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="valor">
+                    <th mat-header-cell *matHeaderCellDef> Valor </th>
+                    <td mat-cell *matCellDef="let element"> {{element.valor}} </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="dataHoraMovimento">
+                    <th mat-header-cell *matHeaderCellDef> Data </th>
+                    <td mat-cell *matCellDef="let element"> {{element.dataHoraMovimento}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

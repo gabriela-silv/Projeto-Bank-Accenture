@@ -1,0 +1,86 @@
+<div class="borda">
+    <div class="cadastro" *ngIf="getUrl == 'cliente' || getEditarModo == 'editar' ">
+        <br>
+        <mat-label>Para cadastrar um novo cliente preencha os campos abaixo</mat-label>
+        <br>
+        <form [formGroup]="formCliente">
+            <mat-form-field appearance="outline" class="campo">
+                <mat-label>Cliente</mat-label>
+                <input matInput formControlName="clienteNome" placeholder="Digite o nome do cliente">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="campo">
+                <mat-label>CPF</mat-label>
+                <input matInput formControlName="clienteCPF" placeholder="Digite o CPF do cliente">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="campo">
+                <mat-label>Telefone</mat-label>
+                <input matInput formControlName="clienteFone" placeholder="Digite o telefone do cliente">
+            </mat-form-field>
+        </form>
+    </div>
+
+    <div class="cadastro" *ngIf="getUrl == 'agencia'">
+        <br>
+        <mat-label>Para cadastrar uma nova agencia preencha os campos abaixo</mat-label>
+        <br>
+        <form [formGroup]="formAgencia">
+            <mat-form-field appearance="outline" class="campo">
+                <mat-label>Agencia</mat-label>
+                <input matInput formControlName="nomeAgencia" placeholder="Digite o nome da agência">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="campo">
+                <mat-label>Endereço</mat-label>
+                <input matInput formControlName="endereco" placeholder="Digite o endereço da agência">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="campo">
+                <mat-label>Telefone</mat-label>
+                <input matInput formControlName="telefone" placeholder="Digite o telefone da agência">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="campo">
+                <mat-label>Id do cliente</mat-label>
+                <input matInput formControlName="idCliente" placeholder="Digite o id do cliente">
+            </mat-form-field>
+        </form>
+
+    </div>
+
+    <div class="cadastro" *ngIf="getUrl == 'conta'">
+        <br>
+        <mat-label>Para cadastrar uma nova conta preencha os campos abaixo</mat-label>
+        <br>
+        <form [formGroup]="formConta">
+            <mat-form-field appearance="outline" class="campo">
+                <mat-label>Conta</mat-label>
+                <input matInput formControlName="contaCorrenteNumero" placeholder="Digite o número da conta corrente">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="campo">
+                <mat-label>Saldo da conta corrente</mat-label>
+                <input matInput formControlName="contaCorrenteSaldo" placeholder="Digite o saldo da conta corrente">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="campo">
+                <mat-label>Id da agência</mat-label>
+                <input matInput formControlName="idAgencia" placeholder="Digite o id da agência">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="campo">
+                <mat-label>Id do cliente</mat-label>
+                <input matInput formControlName="idCliente" placeholder="Digite o id do cliente">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="botoes">
+        <button class="botao-inserir" mat-fab extended type="button"  (click)="redirecionar()">
+            Voltar
+        </button>
+        <button class="botao-inserir" mat-fab extended type="submit" (click)="inserir()">
+            {{ getEditarModo == 'editar' ? 'Atualizar' : 'Inserir'}}
+        </button>
+    </div>
+</div>

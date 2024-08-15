@@ -1,0 +1,92 @@
+.borda {
+    background-color: #f2f2f2;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    align-items: center;
+    background-color: #ffffff;
+    width: 80vw;
+    height: 50vw;
+    overflow-y: scroll;
+}
+
+.tabela {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    width: 70vw;
+}
+
+.botao-lateral {
+    width: 30%;
+    border-radius: 0;
+}
+
+.botoes {
+    display: flex;
+    justify-content: space-evenly;
+    width: 40vw;
+}
+
+.avatar {
+    margin-top: 2vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7rem;
+    background-color: #ffffff;
+    width: 5vw;
+    height: 5vw;
+}
+
+.mat-drawer-content{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    width: 12vw;
+}
+
+.nome-usuario{
+    margin: 1rem;
+    text-align: center;
+}
+
+.background-avatar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #8001c6;
+    width: 100%;
+}
+
+.olho{
+    width: 1vw;
+    margin: 1rem;
+    cursor: pointer;
+}
+
+.saldo{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 70vw;
+}
+
+.botao-drawer{
+    width: 100%;
+    border-radius: 0;
+}
+
+.conta{
+    width: 70vw;
+}

@@ -1,0 +1,30 @@
+<div class="borda">
+    <div class="cadastro">
+        <br>
+        <mat-label>Para concluir a operação preencha os campos abaixo</mat-label>
+        <br>
+        <form [formGroup]="form">
+
+            <mat-form-field appearance="outline" class="campo" *ngIf="getTipoOperacao == 'transferir'">
+                <mat-label>Id da conta destino</mat-label>
+                <input matInput formControlName="idContaCorrenteDestino" placeholder="Digite o id da conta de destino">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="campo">
+                <mat-label>Valor</mat-label>
+                <input matInput formControlName="valor" placeholder="Digite o valor da operação">
+            </mat-form-field>
+
+
+            <div class="botoes">
+                <button class="botao-inserir" mat-fab extended type="button" (click)="redirecionar()">
+                    voltar
+                </button>
+                <button class="botao-inserir" mat-fab extended type="submit" (click)="inserir()">
+                    {{ getTipoOperacao }}
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>

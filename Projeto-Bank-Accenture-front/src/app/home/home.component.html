@@ -1,0 +1,82 @@
+<div class="borda">
+    <mat-drawer-container class="example-container">
+        <mat-drawer-content>
+            <br>
+            <br>
+            <button class="botao-lateral" (click)="redirecionar('cadastro/cliente')" mat-raised-button>
+                Cadastrar cliente
+            </button>
+            <br>
+            <br>
+            <button class="botao-lateral" (click)="redirecionar('cadastro/agencia')" mat-raised-button>
+                Cadastrar agência
+            </button>
+            <br>
+            <br>
+            <button class="botao-lateral" (click)="redirecionar('cadastro/conta')" mat-raised-button>
+                Cadastrar conta
+            </button>
+            <br>
+            <br>
+            <button class="botao-lateral" (click)="redirecionar('cliente/1')" mat-raised-button>
+                Redirecionar para cliente
+            </button>
+        </mat-drawer-content>
+    </mat-drawer-container>
+    <div class="container">
+
+        <app-cabecalho></app-cabecalho>
+
+        <div class="tabela">
+            <br>
+            <mat-label><b>Lista de contas dos clientes do Banco Accenture</b></mat-label>
+            <br>
+            <table mat-table [dataSource]="dataSource">
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="id_cliente">
+                    <th mat-header-cell *matHeaderCellDef> Id </th>
+                    <td mat-cell *matCellDef="let element"> {{element.idCliente.idCliente}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="nome">
+                    <th mat-header-cell *matHeaderCellDef> Nome </th>
+                    <td mat-cell *matCellDef="let element"> {{element.idCliente.clienteNome}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="cpf">
+                    <th mat-header-cell *matHeaderCellDef> CPF </th>
+                    <td mat-cell *matCellDef="let element"> {{element.idCliente.clienteCPF | CPF }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="telefone">
+                    <th mat-header-cell *matHeaderCellDef> Telefone </th>
+                    <td mat-cell *matCellDef="let element"> {{element.idCliente.clienteFone}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="numeroConta">
+                    <th mat-header-cell *matHeaderCellDef> N°Conta </th>
+                    <td mat-cell *matCellDef="let element"> {{element.contaCorrenteNumero}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="numeroAgencia">
+                    <th mat-header-cell *matHeaderCellDef> Id agência </th>
+                    <td mat-cell *matCellDef="let element"> {{element.idAgencia.idAgencia}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="acao">
+                    <th mat-header-cell *matHeaderCellDef> Ações</th>
+                    <td mat-cell *matCellDef="let element"><mat-icon (click)="removerConta(element.idContaCorrente)">delete</mat-icon><mat-icon (click)="edit(element.idCliente.idCliente)">edit</mat-icon></td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </div>
+
+    </div>
+</div>
+
